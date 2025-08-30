@@ -5,3 +5,4 @@
 # Workflow
 - Be sure to typecheck when you’re done making a series of code changes.
 - No need to run code test. Just try your best to write correct code.
+- After finish some code, ALWAYS tell how to run the projet.

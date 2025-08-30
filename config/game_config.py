@@ -1,10 +1,11 @@
 # Game configuration parameters
 
-# Track settings
-TRACK_LENGTH = 1000  # Track length in pixels
-TRACK_WIDTH = 600    # Track width in pixels
+# Track settings - Circular Track
+TRACK_RADIUS = 300   # Radius of the circular track center
+TRACK_WIDTH = 120    # Width of the track (distance between inner and outer edges)
 NUM_LANES = 3        # Number of lanes
 LANE_WIDTH = TRACK_WIDTH // NUM_LANES
+LAPS_TO_WIN = 3      # Number of laps required to win the race
 
 # Car settings
 CAR_WIDTH = 30

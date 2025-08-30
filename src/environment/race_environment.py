@@ -1,5 +1,6 @@
 import gymnasium as gym
 import numpy as np
+import math
 from typing import List, Tuple, Dict, Any
 import sys
 import os
@@ -12,29 +13,22 @@ from .renderer import GameRenderer
 
 class RaceEnvironment(gym.Env):
     """
-    2D Car Racing Environment for RL Agent vs Baseline Agent
+    Circular 2D Car Racing Environment for RL Agent vs Baseline Agent
     """
     
-    def __init__(self, render_mode: str = None, track_length: int = TRACK_LENGTH):
+    def __init__(self, render_mode: str = None):
         super().__init__()
         
         # Environment configuration
         self.render_mode = render_mode
-        self.track_length = track_length
         
         # Initialize components
-        self.track = Track(length=track_length)
+        self.track = Track()
         self.tile_manager = TileManager(self.track)
         
         # Initialize cars
-        self.baseline_car = BaselineCar(
-            x=self.track.get_lane_center(self.track.middle_lane_id),
-            y=0
-        )
-        self.rl_car = RLCar(
-            x=self.track.get_lane_center(0),  # Start in left lane
-            y=0
-        )
+        self.baseline_car = BaselineCar(angle=0, track=self.track)
+        self.rl_car = RLCar(angle=0, lane=0)  # Start in innermost lane
         
         self.cars = [self.baseline_car, self.rl_car]
         
@@ -69,15 +63,12 @@ class RaceEnvironment(gym.Env):
         self.track.reset()
         self.tile_manager.reset(seed=seed)
         
-        # Reset cars to starting positions
-        self.baseline_car.reset(
-            x=self.track.get_lane_center(self.track.middle_lane_id),
-            y=0
-        )
-        self.rl_car.reset(
-            x=self.track.get_lane_center(0),
-            y=0
-        )
+        # Reset cars to starting positions (angle 0, different lanes)
+        self.baseline_car.reset(angle=0, lane=self.track.middle_lane_id)
+        self.baseline_car.update_radius_from_lane(self.track)
+        
+        self.rl_car.reset(angle=0, lane=0)  # Start in innermost lane
+        self.rl_car.update_radius_from_lane(self.track)
         
         # Reset environment state
         self.race_time = 0.0
@@ -99,7 +90,7 @@ class RaceEnvironment(gym.Env):
         
         # Update car physics
         for car in self.cars:
-            car.update_physics()
+            car.update_physics(track=self.track)
             
         # Check tile collisions
         for car in self.cars:
@@ -131,16 +122,16 @@ class RaceEnvironment(gym.Env):
         
     def _apply_action(self, action: int):
         """Apply action to the RL car"""
-        # Action mapping: 0=stay, 1=left, 2=right, 3=accelerate, 4=decelerate
+        # Action mapping: 0=stay, 1=inner_lane, 2=outer_lane, 3=accelerate, 4=decelerate
         
-        if action == 1:  # Move left
+        if action == 1:  # Move to inner lane (smaller radius)
             valid_lanes = self.track.get_valid_lane_changes(self.rl_car.current_lane)
             if self.rl_car.current_lane > 0:
                 new_lane = self.rl_car.current_lane - 1
                 if new_lane in valid_lanes:
                     self.rl_car.change_lane(new_lane)
                     
-        elif action == 2:  # Move right
+        elif action == 2:  # Move to outer lane (larger radius)
             valid_lanes = self.track.get_valid_lane_changes(self.rl_car.current_lane)
             if self.rl_car.current_lane < self.track.num_lanes - 1:
                 new_lane = self.rl_car.current_lane + 1
@@ -175,8 +166,11 @@ class RaceEnvironment(gym.Env):
         # Base reward: small positive for making progress
         reward += 0.1
         
-        # Reward for being ahead of baseline
-        if self.rl_car.y > self.baseline_car.y:
+        # Reward for being ahead of baseline in laps or angle
+        rl_total_progress = self.rl_car.laps_completed + self.rl_car.angle / (2 * math.pi)
+        baseline_total_progress = self.baseline_car.laps_completed + self.baseline_car.angle / (2 * math.pi)
+        
+        if rl_total_progress > baseline_total_progress:
             reward += 0.5
         else:
             reward -= 0.2
@@ -201,21 +195,22 @@ class RaceEnvironment(gym.Env):
         return reward
         
     def _check_race_finished(self) -> Tuple[bool, str]:
-        """Check if race is finished and determine winner"""
+        """Check if race is finished and determine winner based on laps"""
         
-        # Check if either car reached the finish line
-        for car in self.cars:
-            if car.y >= self.track_length:
-                if car == self.rl_car:
-                    return True, "RL"
-                else:
-                    return True, "Baseline"
+        # Check if either car completed required laps
+        if self.rl_car.laps_completed >= self.track.laps_to_win:
+            return True, "RL"
+        elif self.baseline_car.laps_completed >= self.track.laps_to_win:
+            return True, "Baseline"
                     
-        # Check for timeout (optional)
-        max_race_time = 120.0  # 2 minutes max
+        # Check for timeout
+        max_race_time = 180.0  # 3 minutes max for circular track
         if self.race_time >= max_race_time:
-            # Determine winner by position
-            if self.rl_car.y > self.baseline_car.y:
+            # Determine winner by total progress
+            rl_progress = self.rl_car.laps_completed + self.rl_car.angle / (2 * math.pi)
+            baseline_progress = self.baseline_car.laps_completed + self.baseline_car.angle / (2 * math.pi)
+            
+            if rl_progress > baseline_progress:
                 return True, "RL"
             else:
                 return True, "Baseline"
@@ -226,10 +221,12 @@ class RaceEnvironment(gym.Env):
         """Get additional information"""
         return {
             'race_time': self.race_time,
-            'rl_car_position': self.rl_car.y,
-            'baseline_car_position': self.baseline_car.y,
+            'rl_car_laps': self.rl_car.laps_completed,
+            'baseline_car_laps': self.baseline_car.laps_completed,
+            'rl_car_angle': self.rl_car.angle,
+            'baseline_car_angle': self.baseline_car.angle,
             'rl_car_lane': self.rl_car.current_lane,
-            'rl_car_speed': self.rl_car.velocity_y,
+            'rl_car_angular_speed': self.rl_car.angular_velocity,
             'episode': self.episode,
             'race_finished': self.race_finished,
             'winner': self.winner
@@ -250,4 +247,4 @@ class RaceEnvironment(gym.Env):
             
     def get_action_meanings(self) -> List[str]:
         """Get human-readable action names"""
-        return ["Stay", "Left", "Right", "Accelerate", "Decelerate"]
+        return ["Stay", "Inner Lane", "Outer Lane", "Accelerate", "Decelerate"]

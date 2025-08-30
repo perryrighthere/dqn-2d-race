@@ -30,8 +30,8 @@ def test_basic_functionality():
         obs, reward, terminated, truncated, info = env.step(action)
         
         print(f"Step {step+1}: Action={action}, Reward={reward:.2f}, "
-              f"RL Position={info['rl_car_position']:.1f}, "
-              f"Baseline Position={info['baseline_car_position']:.1f}")
+              f"RL Laps={info['rl_car_laps']}, RL Angle={info['rl_car_angle']:.2f}, "
+              f"Baseline Laps={info['baseline_car_laps']}, Baseline Angle={info['baseline_car_angle']:.2f}")
         
         if terminated:
             print(f"Race finished! Winner: {info['winner']}")
@@ -71,8 +71,8 @@ def run_visual_demo():
             
             # Print periodic updates
             if step_count % 60 == 0:  # Every second at 60 FPS
-                print(f"Step {step_count}: RL at {info['rl_car_position']:.1f}, "
-                      f"Baseline at {info['baseline_car_position']:.1f}")
+                print(f"Step {step_count}: RL Laps={info['rl_car_laps']}, "
+                      f"Baseline Laps={info['baseline_car_laps']}")
             
             # Check if race finished
             if terminated:
@@ -106,9 +106,11 @@ def analyze_environment():
     # Reset and analyze initial state
     obs, info = env.reset()
     print(f"Observation dimensions: {len(obs)}")
-    print(f"Track length: {env.track_length}")
+    print(f"Track radius: {env.track.radius}")
+    print(f"Track circumference: {env.track.circumference:.1f}")
     print(f"Number of lanes: {env.track.num_lanes}")
     print(f"Middle lane ID: {env.track.middle_lane_id}")
+    print(f"Laps to win: {env.track.laps_to_win}")
     
     # Analyze tile distribution
     tile_counts = env.tile_manager.get_tile_count()
