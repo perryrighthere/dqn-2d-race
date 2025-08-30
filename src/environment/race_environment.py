@@ -148,14 +148,8 @@ class RaceEnvironment(gym.Env):
         
     def _get_observation(self) -> np.ndarray:
         """Get current observation for RL agent"""
-        # Get RL car state
-        rl_state = self.rl_car.get_state(self.track)
-        
-        # Get tile information
-        tile_state = self.tile_manager.get_state_representation(self.rl_car)
-        
-        # Combine states
-        observation = np.concatenate([rl_state, tile_state])
+        # Get RL car state (already includes tile information)
+        observation = self.rl_car.get_state(self.track)
         
         return observation.astype(np.float32)
         

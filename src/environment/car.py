@@ -63,8 +63,8 @@ class Car:
         self.angle += effective_angular_velocity * dt
         self.total_angle += effective_angular_velocity * dt
         
-        # Handle lap completion
-        if old_angle > self.angle:  # Wrapped around from 2π to 0
+        # Handle lap completion - detect when angle crosses 2π threshold
+        if self.angle >= 2 * math.pi:
             self.laps_completed += 1
             
         # Normalize angle to [0, 2π]
@@ -175,8 +175,8 @@ class BaselineCar(Car):
         self.angle += self.angular_velocity * dt
         self.total_angle += self.angular_velocity * dt
         
-        # Handle lap completion
-        if old_angle > self.angle:  # Wrapped around
+        # Handle lap completion - detect when angle crosses 2π threshold
+        if self.angle >= 2 * math.pi:
             self.laps_completed += 1
             
         # Normalize angle
