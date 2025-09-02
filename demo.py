@@ -40,11 +40,30 @@ def test_basic_functionality():
     env.close()
     print("Basic functionality test completed!\n")
 
-def run_visual_demo():
+def run_visual_demo(use_trained_model=False, model_path=None):
     """Run visual demo with pygame rendering"""
     print("Starting visual demo...")
     print("Controls: ESC to quit")
-    print("The RL agent (red) will take random actions")
+    
+    agent = None
+    if use_trained_model and model_path and os.path.exists(model_path):
+        try:
+            from src.agents.dqn_agent import create_racing_dqn_agent
+            agent = create_racing_dqn_agent(
+                state_size=11, action_size=5,
+                config={'epsilon': 0.0, 'learning_rate': 0.0005}
+            )
+            agent.load_model(model_path, load_optimizer=False)
+            print(f"Using trained DQN model: {model_path}")
+            print("The RL agent (red) will use trained DQN policy")
+        except Exception as e:
+            print(f"Failed to load trained model: {e}")
+            print("Falling back to random actions")
+            agent = None
+    
+    if agent is None:
+        print("The RL agent (red) will take random actions")
+    
     print("The baseline agent (blue) maintains constant speed in middle lane\n")
     
     # Create environment with rendering
@@ -58,12 +77,16 @@ def run_visual_demo():
         step_count = 0
         
         while running:
-            # Take random action for demo purposes
-            action = env.action_space.sample()
-            
-            # Occasionally bias towards lane changes for more interesting demo
-            if np.random.random() < 0.3:
-                action = np.random.choice([1, 2])  # Prefer lane changes
+            if agent is not None:
+                # Use trained agent
+                action = agent.select_action(observation, training=False)
+            else:
+                # Take random action for demo purposes
+                action = env.action_space.sample()
+                
+                # Occasionally bias towards lane changes for more interesting demo
+                if np.random.random() < 0.3:
+                    action = np.random.choice([1, 2])  # Prefer lane changes
             
             # Step environment
             obs, reward, terminated, truncated, info = env.step(action)
@@ -123,7 +146,7 @@ def analyze_environment():
     print("Environment analysis completed!\n")
 
 def main():
-    print("=== 2D Car Racing Game - Phase 1 Demo ===")
+    print("=== 2D Car Racing Game Demo ===")
     print("DQN vs Baseline Agent\n")
     
     try:
@@ -131,24 +154,50 @@ def main():
         analyze_environment()
         test_basic_functionality()
         
+        # Check if trained model exists
+        model_path = "models/dqn_racing_final.pth"
+        has_trained_model = os.path.exists(model_path)
+        
+        if has_trained_model:
+            print(f"Found trained model: {model_path}")
+        
         # Ask user if they want to see visual demo
         while True:
-            choice = input("Run visual demo? (y/n): ").lower().strip()
-            if choice in ['y', 'yes']:
-                run_visual_demo()
-                break
-            elif choice in ['n', 'no']:
-                print("Skipping visual demo.")
-                break
+            if has_trained_model:
+                print("Demo options:")
+                print("  1. Random agent vs Baseline")
+                print("  2. Trained DQN vs Baseline")
+                print("  3. Skip demo")
+                choice = input("Choose option (1/2/3): ").strip()
+                
+                if choice == "1":
+                    run_visual_demo(use_trained_model=False)
+                    break
+                elif choice == "2":
+                    run_visual_demo(use_trained_model=True, model_path=model_path)
+                    break
+                elif choice == "3":
+                    print("Skipping visual demo.")
+                    break
+                else:
+                    print("Please enter 1, 2, or 3")
             else:
-                print("Please enter 'y' or 'n'")
+                choice = input("Run visual demo? (y/n): ").lower().strip()
+                if choice in ['y', 'yes']:
+                    run_visual_demo()
+                    break
+                elif choice in ['n', 'no']:
+                    print("Skipping visual demo.")
+                    break
+                else:
+                    print("Please enter 'y' or 'n'")
         
     except Exception as e:
         print(f"Error during demo: {e}")
         import traceback
         traceback.print_exc()
     
-    print("\n=== Phase 1 Demo Completed ===")
+    print("\n=== Demo Completed ===")
 
 if __name__ == "__main__":
     main()
