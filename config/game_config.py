@@ -18,7 +18,7 @@ MIN_SPEED = 1.0
 ACCELERATION_BOOST = 1.5  # Speed multiplier for acceleration tiles
 DECELERATION_FACTOR = 0.5  # Speed multiplier for deceleration tiles
 TILE_SIZE = 50       # Size of special tiles
-TILE_DENSITY = 0.1   # Probability of tile placement per unit distance
+TILE_DENSITY = 0.8   # Higher density for more strategic gameplay
 
 # Display settings
 WINDOW_WIDTH = 800

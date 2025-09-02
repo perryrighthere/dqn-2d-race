@@ -58,7 +58,7 @@ class TileManager:
         self.tiles_by_lane = {}  # Dict mapping lane_id to list of tiles
         
     def generate_tiles(self, density: float = TILE_DENSITY, seed: int = 42):
-        """Generate special tiles for all lanes except middle lane"""
+        """Generate special tiles for all lanes except middle lane with enhanced randomization"""
         np.random.seed(seed)
         self.clear_tiles()
         
@@ -69,17 +69,57 @@ class TileManager:
                 
             self.tiles_by_lane[lane.lane_id] = []
             
-            # Generate tiles around the circular track
-            num_tiles = int(density * 15)  # Adjust for circular track
-            for _ in range(num_tiles):
-                angle = np.random.uniform(0, 2 * math.pi)
-                tile_type = np.random.choice([TileType.ACCELERATION, TileType.DECELERATION])
+            # Generate more tiles with better distribution
+            base_tiles = int(density * 25)  # Increased base number
+            # Add some randomness to tile count per lane
+            tile_variation = np.random.randint(-3, 8)  # Can add 0-7 extra tiles
+            num_tiles = max(base_tiles + tile_variation, 5)  # Minimum 5 tiles per lane
+            
+            # Keep track of placed angles to avoid clustering
+            placed_angles = []
+            
+            for i in range(num_tiles):
+                attempts = 0
+                while attempts < 50:  # Prevent infinite loops
+                    angle = np.random.uniform(0, 2 * math.pi)
+                    
+                    # Check minimum distance from existing tiles (avoid clustering)
+                    min_angle_distance = 0.3  # Minimum angular separation
+                    too_close = False
+                    for existing_angle in placed_angles:
+                        angle_diff = min(abs(angle - existing_angle), 
+                                       2 * math.pi - abs(angle - existing_angle))
+                        if angle_diff < min_angle_distance:
+                            too_close = True
+                            break
+                    
+                    if not too_close:
+                        placed_angles.append(angle)
+                        break
+                    attempts += 1
                 
-                # Create tile at lane center radius
+                # If we couldn't find a good spot, use random angle anyway
+                if attempts >= 50:
+                    angle = np.random.uniform(0, 2 * math.pi)
+                    placed_angles.append(angle)
+                
+                # More varied tile type selection with slight bias toward acceleration
+                tile_weights = [0.6, 0.4]  # 60% acceleration, 40% deceleration
+                tile_type = np.random.choice([TileType.ACCELERATION, TileType.DECELERATION], 
+                                           p=tile_weights)
+                
+                # Add some radial variation within lane for more realism
+                radius_variation = np.random.uniform(-8, 8)  # Small radius offset
+                actual_radius = max(lane.inner_radius + 10, 
+                                  min(lane.outer_radius - 10, 
+                                      lane.center_radius + radius_variation))
+                
+                # Create tile with variations
                 tile = SpecialTile(
                     angle=angle,
-                    radius=lane.center_radius,
-                    tile_type=tile_type
+                    radius=actual_radius,
+                    tile_type=tile_type,
+                    size=TILE_SIZE + np.random.uniform(-5, 5)  # Slight size variation
                 )
                 
                 self.tiles.append(tile)
@@ -191,3 +231,29 @@ class TileManager:
         for tile in self.tiles:
             counts[tile.tile_type.value] += 1
         return counts
+    
+    def get_detailed_tile_stats(self) -> Dict:
+        """Get detailed statistics about tile placement"""
+        stats = {
+            'total_tiles': len(self.tiles),
+            'tiles_by_type': self.get_tile_count(),
+            'tiles_by_lane': {},
+            'average_tiles_per_lane': 0
+        }
+        
+        # Count tiles per lane
+        for lane_id, tiles in self.tiles_by_lane.items():
+            lane_stats = {
+                'total': len(tiles),
+                'acceleration': sum(1 for t in tiles if t.tile_type == TileType.ACCELERATION),
+                'deceleration': sum(1 for t in tiles if t.tile_type == TileType.DECELERATION)
+            }
+            stats['tiles_by_lane'][f'lane_{lane_id}'] = lane_stats
+        
+        # Calculate average
+        non_middle_lanes = len([lid for lid in self.tiles_by_lane.keys() 
+                               if not self.track.is_middle_lane(lid)])
+        if non_middle_lanes > 0:
+            stats['average_tiles_per_lane'] = stats['total_tiles'] / non_middle_lanes
+        
+        return stats

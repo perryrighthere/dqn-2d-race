@@ -35,6 +35,15 @@ python demo_trained.py
 python demo_trained.py --headless --races 20
 ```
 
+### 5. Test Enhanced Tile System
+```bash
+# View tile statistics and distribution
+python test_tiles.py
+
+# See the improved tile density in action
+python demo.py  # Choose option 2 for trained DQN vs baseline
+```
+
 ---
 
 ## 🎮 Running Different Components
@@ -56,6 +65,15 @@ python demo_trained.py
 - Shows trained DQN vs baseline
 - Real-time racing statistics
 - Win rate and performance analysis
+
+#### Enhanced Tile System Testing
+```bash
+python test_tiles.py
+```
+- View detailed tile statistics
+- Test different random seeds
+- Analyze tile distribution patterns
+- Optional visual demo with many tiles
 
 ### Training the DQN Agent
 
@@ -142,12 +160,24 @@ Race 1: Winner=dqn, Time=165.2s, Reward=523.4
 ```
 - **Winner**: Which agent won (dqn/baseline/timeout)
 - **Time**: Race completion time in seconds
-- **Reward**: Total reward earned by DQN
+- **Reward**: Total reward earned by DQN (higher rewards indicate more tile interactions)
+
+### Enhanced Tile System Output
+```
+Total tiles: 41
+Average tiles per lane: 20.5
+Acceleration tiles: 26, Deceleration tiles: 15
+Lane 0: 23 tiles, Lane 2: 18 tiles
+```
+- **Total tiles**: Now 36-49 tiles per track (vs ~3-6 previously)
+- **Tiles per lane**: 18-25 tiles per non-middle lane
+- **Distribution**: 60% acceleration, 40% deceleration tiles
 
 ### Performance Targets
 - **Baseline Performance**: 180.00 seconds (consistent)
 - **Target Win Rate**: 60%+ wins against baseline
 - **Target Improvement**: 5-15 second faster than baseline
+- **Enhanced Tiles**: Expect 24% higher rewards (~552 vs ~448) due to more tile interactions
 
 ---
 
@@ -266,9 +296,11 @@ python -m py_compile src/environment/*.py src/agents/*.py config/*.py
 ### Racing Mechanics
 - **Red Car**: DQN Agent (your trained AI)
 - **Blue Car**: Baseline Agent (constant speed, middle lane)
-- **Special Tiles**: 
-  - **+ symbols**: Acceleration tiles (speed boost)
-  - **- symbols**: Deceleration tiles (speed reduction)
+- **Enhanced Special Tiles**: 
+  - **+ symbols**: Acceleration tiles (speed boost) - 60% of tiles
+  - **- symbols**: Deceleration tiles (speed reduction) - 40% of tiles
+  - **Density**: 18-25 tiles per lane (10x more than before)
+  - **Placement**: Randomized with anti-clustering algorithm
 - **Race Objective**: Complete 3 laps first to win
 
 ---
@@ -286,6 +318,45 @@ python -m py_compile src/environment/*.py src/agents/*.py config/*.py
 - **Time Improvement**: 5-15 seconds faster than 180s baseline
 - **Consistency**: Stable performance across multiple races
 - **Strategy**: Evidence of lane-changing and tile utilization
+- **Tile Interactions**: Higher reward scores indicating strategic tile usage
+
+---
+
+## 🎯 Enhanced Tile System Features
+
+### Recent Improvements
+The special tile system has been significantly enhanced for better RL agent testing:
+
+#### **10x More Tiles**
+- **Before**: ~3-6 tiles total per track
+- **After**: 36-49 tiles total per track
+- **Impact**: Much more strategic gameplay and learning opportunities
+
+#### **Smarter Placement**
+- **Anti-clustering**: Minimum angular separation prevents tile bunching
+- **Radial variation**: Tiles placed at different positions within lanes
+- **Random distribution**: Each race has different tile layouts
+- **Balanced types**: 60% acceleration, 40% deceleration tiles
+
+#### **Testing Commands**
+```bash
+# View tile statistics
+python test_tiles.py
+
+# Compare different random seeds
+python -c "
+from src.environment.race_environment import RaceEnvironment
+for seed in [42, 123, 456]:
+    env = RaceEnvironment()
+    env.reset(seed=seed)
+    stats = env.tile_manager.get_detailed_tile_stats()
+    print(f'Seed {seed}: {stats[\"total_tiles\"]} tiles')
+    env.close()
+"
+
+# Test with enhanced tiles
+python demo_trained.py --headless --races 5
+```
 
 ---
 
@@ -294,9 +365,10 @@ python -m py_compile src/environment/*.py src/agents/*.py config/*.py
 After successful training:
 
 1. **Evaluate Performance**: Use `demo_trained.py` to test win rate
-2. **Experiment with Training**: Try different configurations
-3. **Analyze Strategy**: Watch races to see learned behaviors
-4. **Optimize Further**: Adjust hyperparameters for better results
+2. **Test Enhanced Tiles**: Use `test_tiles.py` to see improved tile distribution
+3. **Experiment with Training**: Try different configurations with more tiles
+4. **Analyze Strategy**: Watch races to see learned tile utilization behaviors
+5. **Optimize Further**: Adjust hyperparameters for the richer environment
 
 ---
 
