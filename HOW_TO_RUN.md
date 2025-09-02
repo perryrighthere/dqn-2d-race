@@ -229,6 +229,9 @@ ls models/
 
 # Use specific model path
 python demo_trained.py --model models/dqn_racing_episode_100.pth
+
+# If you get "unexpected keyword argument" errors, the demo scripts have been fixed
+# Make sure you're using the latest version of the scripts
 ```
 
 #### Training Performance Issues

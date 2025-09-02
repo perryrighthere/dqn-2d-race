@@ -49,10 +49,13 @@ def run_visual_demo(use_trained_model=False, model_path=None):
     if use_trained_model and model_path and os.path.exists(model_path):
         try:
             from src.agents.dqn_agent import create_racing_dqn_agent
-            agent = create_racing_dqn_agent(
-                state_size=11, action_size=5,
-                config={'epsilon': 0.0, 'learning_rate': 0.0005}
-            )
+            config = {
+                'state_size': 11,
+                'action_size': 5,
+                'epsilon': 0.0,
+                'learning_rate': 0.0005
+            }
+            agent = create_racing_dqn_agent(config=config)
             agent.load_model(model_path, load_optimizer=False)
             print(f"Using trained DQN model: {model_path}")
             print("The RL agent (red) will use trained DQN policy")
@@ -79,7 +82,7 @@ def run_visual_demo(use_trained_model=False, model_path=None):
         while running:
             if agent is not None:
                 # Use trained agent
-                action = agent.select_action(observation, training=False)
+                action = agent.act(observation, training=False)
             else:
                 # Take random action for demo purposes
                 action = env.action_space.sample()
