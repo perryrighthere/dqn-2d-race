@@ -32,7 +32,7 @@ class TrainingManager:
         self.config = {
             # Training parameters
             'num_episodes': 1000,
-            'max_steps_per_episode': 3000,  # 50 seconds at 60 FPS
+            'max_steps_per_episode': 4200,  # 70 seconds at 60 FPS
             'save_freq': 100,  # Save model every 100 episodes
             'eval_freq': 50,   # Evaluate every 50 episodes
             'eval_episodes': 10,  # Number of episodes for evaluation

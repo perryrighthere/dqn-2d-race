@@ -1,7 +1,7 @@
 import pygame
 import numpy as np
 import math
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '../..'))
@@ -33,6 +33,115 @@ class GameRenderer:
         self.font = pygame.font.Font(None, 36)
         self.small_font = pygame.font.Font(None, 24)
         
+        # Load and create background surfaces
+        self._create_background_surfaces()
+        
+        # Car surface cache
+        self._car_surfaces = {}
+        self._create_car_surfaces()
+    
+    def _create_background_surfaces(self):
+        """Create procedural background textures"""
+        # Grass background
+        self.grass_surface = pygame.Surface((self.width, self.height))
+        self._draw_grass_pattern(self.grass_surface)
+        
+        # Track surface with asphalt texture
+        self.track_surface = None
+        
+    def _draw_grass_pattern(self, surface):
+        """Draw procedural grass pattern"""
+        surface.fill((34, 139, 34))  # Forest green base
+        
+        # Add grass texture with random dots
+        import random
+        random.seed(42)  # Consistent grass pattern
+        for _ in range(2000):
+            x = random.randint(0, surface.get_width())
+            y = random.randint(0, surface.get_height())
+            # Varying shades of green
+            grass_colors = [(50, 150, 50), (40, 120, 40), (60, 180, 60)]
+            color = random.choice(grass_colors)
+            pygame.draw.circle(surface, color, (x, y), random.randint(1, 3))
+    
+    def _create_track_surface(self, track: Track):
+        """Create track surface with asphalt texture"""
+        if self.track_surface is not None:
+            return
+            
+        # Create surface large enough for the track
+        size = int(track.outer_radius * 2 * self.display_scale) + 50
+        self.track_surface = pygame.Surface((size, size), pygame.SRCALPHA)
+        center = size // 2
+        
+        # Draw asphalt texture
+        outer_radius = int(track.outer_radius * self.display_scale)
+        inner_radius = int(track.inner_radius * self.display_scale)
+        
+        # Dark asphalt base
+        pygame.draw.circle(self.track_surface, (45, 45, 45), (center, center), outer_radius)
+        pygame.draw.circle(self.track_surface, (0, 0, 0, 0), (center, center), inner_radius)
+        
+        # Add asphalt texture with random noise
+        import random
+        random.seed(123)
+        for _ in range(1000):
+            angle = random.uniform(0, 2 * math.pi)
+            radius = random.uniform(inner_radius, outer_radius)
+            x = int(center + radius * math.cos(angle))
+            y = int(center + radius * math.sin(angle))
+            if inner_radius < math.sqrt((x - center)**2 + (y - center)**2) < outer_radius:
+                gray_val = random.randint(30, 60)
+                color = (gray_val, gray_val, gray_val)
+                pygame.draw.circle(self.track_surface, color, (x, y), random.randint(1, 2))
+    
+    def _create_car_surfaces(self):
+        """Create enhanced car surfaces"""
+        # DQN car (red sports car)
+        self._car_surfaces['dqn'] = self._create_sports_car_surface((220, 20, 20), (255, 100, 100))
+        
+        # Baseline car (blue classic car)
+        self._car_surfaces['baseline'] = self._create_classic_car_surface((20, 20, 220), (100, 100, 255))
+    
+    def _create_sports_car_surface(self, primary_color, accent_color):
+        """Create a sports car surface"""
+        size = 32
+        surface = pygame.Surface((size, size), pygame.SRCALPHA)
+        center = size // 2
+        
+        # Car body (elongated oval)
+        pygame.draw.ellipse(surface, primary_color, (6, 10, 20, 12))
+        pygame.draw.ellipse(surface, accent_color, (8, 11, 16, 10))
+        
+        # Car front (pointed)
+        pygame.draw.polygon(surface, primary_color, [(26, 14), (30, 16), (26, 18)])
+        
+        # Windshield
+        pygame.draw.ellipse(surface, (50, 50, 100), (10, 12, 10, 8))
+        
+        # Racing stripes
+        pygame.draw.line(surface, WHITE, (8, 15), (24, 15), 1)
+        
+        return surface
+    
+    def _create_classic_car_surface(self, primary_color, accent_color):
+        """Create a classic car surface"""
+        size = 32
+        surface = pygame.Surface((size, size), pygame.SRCALPHA)
+        center = size // 2
+        
+        # Car body (rectangular with rounded corners)
+        pygame.draw.rect(surface, primary_color, (8, 11, 18, 10), border_radius=3)
+        pygame.draw.rect(surface, accent_color, (10, 12, 14, 8), border_radius=2)
+        
+        # Car front
+        pygame.draw.rect(surface, primary_color, (26, 13, 4, 6), border_radius=2)
+        
+        # Windshield
+        pygame.draw.rect(surface, (50, 50, 100), (12, 13, 8, 6))
+        
+        return surface
+        
     def polar_to_screen(self, angle: float, radius: float) -> Tuple[int, int]:
         """Convert polar coordinates to screen coordinates"""
         # Apply display scale
@@ -49,40 +158,65 @@ class GameRenderer:
         return screen_x, screen_y
         
     def render_track(self, track: Track):
-        """Render the circular racing track with concentric lanes"""
-        # Draw track surface (fill between inner and outer boundaries)
+        """Render the circular racing track with enhanced graphics"""
+        # Create track surface if needed
+        self._create_track_surface(track)
+        
+        # Calculate track dimensions
         outer_radius = int(track.outer_radius * self.display_scale)
         inner_radius = int(track.inner_radius * self.display_scale)
         
-        # Draw outer circle (track boundary)
-        pygame.draw.circle(self.screen, GRAY, 
-                         (self.track_center_x, self.track_center_y), 
-                         outer_radius, 0)
+        # Blit the textured track surface
+        if self.track_surface:
+            track_rect = self.track_surface.get_rect()
+            track_rect.center = (self.track_center_x, self.track_center_y)
+            self.screen.blit(self.track_surface, track_rect)
         
-        # Draw inner circle (track hole)
-        pygame.draw.circle(self.screen, BLACK, 
-                         (self.track_center_x, self.track_center_y), 
-                         inner_radius, 0)
-        
-        # Draw lane dividers
+        # Draw lane dividers with improved styling
         for i in range(1, track.num_lanes):
             lane_radius = int((track.inner_radius + i * track.lane_width) * self.display_scale)
-            # Draw dashed circle for lane divider
+            # Draw dashed circle for lane divider (brighter white)
             self.draw_dashed_circle(self.track_center_x, self.track_center_y, 
-                                  lane_radius, WHITE, 2, 10, 10)
+                                  lane_radius, (255, 255, 255), 2, 8, 12)
         
-        # Draw track borders
+        # Draw enhanced track borders with shadow effect
+        # Outer border
+        pygame.draw.circle(self.screen, (200, 200, 200), 
+                         (self.track_center_x + 2, self.track_center_y + 2), 
+                         outer_radius, 4)  # Shadow
         pygame.draw.circle(self.screen, WHITE, 
                          (self.track_center_x, self.track_center_y), 
                          outer_radius, 3)
+        
+        # Inner border
+        pygame.draw.circle(self.screen, (200, 200, 200), 
+                         (self.track_center_x + 2, self.track_center_y + 2), 
+                         inner_radius, 4)  # Shadow
         pygame.draw.circle(self.screen, WHITE, 
                          (self.track_center_x, self.track_center_y), 
                          inner_radius, 3)
         
-        # Draw start/finish line at angle 0 (rightmost point)
+        # Draw enhanced start/finish line
         start_inner = self.polar_to_screen(0, track.inner_radius)
         start_outer = self.polar_to_screen(0, track.outer_radius)
-        pygame.draw.line(self.screen, GREEN, start_inner, start_outer, 4)
+        
+        # Checkered pattern for start/finish line
+        line_segments = 6
+        for i in range(line_segments):
+            progress = i / line_segments
+            next_progress = (i + 1) / line_segments
+            
+            start_point = (
+                int(start_inner[0] + (start_outer[0] - start_inner[0]) * progress),
+                int(start_inner[1] + (start_outer[1] - start_inner[1]) * progress)
+            )
+            end_point = (
+                int(start_inner[0] + (start_outer[0] - start_inner[0]) * next_progress),
+                int(start_inner[1] + (start_outer[1] - start_inner[1]) * next_progress)
+            )
+            
+            color = WHITE if i % 2 == 0 else BLACK
+            pygame.draw.line(self.screen, color, start_point, end_point, 6)
         
     def draw_dashed_circle(self, center_x: int, center_y: int, radius: int, 
                           color: Tuple[int, int, int], width: int, 
@@ -116,81 +250,158 @@ class GameRenderer:
                 pygame.draw.line(self.screen, color, (x1, y1), (x2, y2), width)
                            
     def render_special_tiles(self, tile_manager: TileManager):
-        """Render special tiles on the circular track"""
+        """Render enhanced special tiles on the circular track"""
         for tile in tile_manager.tiles:
             screen_x, screen_y = self.polar_to_screen(tile.angle, tile.radius)
             
-            # Choose color based on tile type
+            # Choose colors and effects based on tile type
             if tile.tile_type == TileType.ACCELERATION:
-                color = GREEN
+                primary_color = (0, 200, 0)  # Bright green
+                secondary_color = (0, 255, 0)  # Neon green
+                glow_color = (0, 100, 0)
+                symbol = "+"
             else:  # DECELERATION
-                color = RED
-                
-            # Draw tile as a diamond/square
-            tile_size = int(tile.size * self.display_scale * 0.5)  # Scale for display
-            tile_rect = pygame.Rect(
-                screen_x - tile_size // 2,
-                screen_y - tile_size // 2,
-                tile_size,
-                tile_size
-            )
-            pygame.draw.rect(self.screen, color, tile_rect)
-            pygame.draw.rect(self.screen, WHITE, tile_rect, 1)
+                primary_color = (200, 0, 0)  # Bright red
+                secondary_color = (255, 0, 0)  # Neon red
+                glow_color = (100, 0, 0)
+                symbol = "-"
             
-            # Add symbol to indicate tile type
-            symbol_size = max(3, tile_size // 3)
-            if tile.tile_type == TileType.ACCELERATION:
-                # Draw "+" symbol
-                pygame.draw.line(self.screen, WHITE,
-                               (screen_x - symbol_size, screen_y),
-                               (screen_x + symbol_size, screen_y), 2)
-                pygame.draw.line(self.screen, WHITE,
-                               (screen_x, screen_y - symbol_size),
-                               (screen_x, screen_y + symbol_size), 2)
+            # Draw tile with glow effect
+            tile_size = int(tile.size * self.display_scale * 0.6)
+            
+            # Glow effect (multiple circles with decreasing alpha)
+            for i in range(3):
+                glow_radius = tile_size // 2 + i * 3
+                glow_alpha = 60 - i * 20
+                glow_surface = pygame.Surface((glow_radius * 2, glow_radius * 2), pygame.SRCALPHA)
+                pygame.draw.circle(glow_surface, (*glow_color, glow_alpha), 
+                                 (glow_radius, glow_radius), glow_radius)
+                self.screen.blit(glow_surface, 
+                               (screen_x - glow_radius, screen_y - glow_radius))
+            
+            # Main tile (hexagonal shape)
+            points = []
+            for i in range(6):
+                angle = i * math.pi / 3
+                px = screen_x + (tile_size // 2) * math.cos(angle)
+                py = screen_y + (tile_size // 2) * math.sin(angle)
+                points.append((px, py))
+            
+            pygame.draw.polygon(self.screen, primary_color, points)
+            pygame.draw.polygon(self.screen, secondary_color, points, 2)
+            
+            # Enhanced symbol with outline
+            symbol_size = max(4, tile_size // 3)
+            if symbol == "+":
+                # Draw "+" with outline
+                for offset in [(0, 0), (-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]:
+                    color = BLACK if offset != (0, 0) else WHITE
+                    x_off, y_off = offset
+                    pygame.draw.line(self.screen, color,
+                                   (screen_x - symbol_size + x_off, screen_y + y_off),
+                                   (screen_x + symbol_size + x_off, screen_y + y_off), 3)
+                    pygame.draw.line(self.screen, color,
+                                   (screen_x + x_off, screen_y - symbol_size + y_off),
+                                   (screen_x + x_off, screen_y + symbol_size + y_off), 3)
             else:
-                # Draw "-" symbol
-                pygame.draw.line(self.screen, WHITE,
-                               (screen_x - symbol_size, screen_y),
-                               (screen_x + symbol_size, screen_y), 2)
+                # Draw "-" with outline
+                for offset in [(0, 0), (-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]:
+                    color = BLACK if offset != (0, 0) else WHITE
+                    x_off, y_off = offset
+                    pygame.draw.line(self.screen, color,
+                                   (screen_x - symbol_size + x_off, screen_y + y_off),
+                                   (screen_x + symbol_size + x_off, screen_y + y_off), 3)
                     
-    def render_car(self, car: Car, color: Tuple[int, int, int], label: str = ""):
-        """Render a single car on the circular track"""
+    def render_car(self, car: Car, car_type: str = "default", label: str = ""):
+        """Render an enhanced car on the circular track"""
         screen_x, screen_y = self.polar_to_screen(car.angle, car.radius)
         
-        # Draw car as circle (easier for circular track)
-        car_radius = int(max(8, car.width * self.display_scale * 0.3))
+        # Get appropriate car surface
+        car_surface = self._car_surfaces.get(car_type)
+        if car_surface is None:
+            # Fallback to simple circle if surface not found
+            car_radius = int(max(8, car.width * self.display_scale * 0.3))
+            color = RED if car_type == 'dqn' else BLUE
+            pygame.draw.circle(self.screen, color, (screen_x, screen_y), car_radius)
+            pygame.draw.circle(self.screen, WHITE, (screen_x, screen_y), car_radius, 2)
+        else:
+            # Calculate car rotation based on track position
+            # Car should face tangentially to the circular track for counter-clockwise motion
+            # Car sprites are initially facing right (0°), so we need to rotate them to face the tangent
+            tangent_angle = car.angle + math.pi / 2  # Tangent direction for counter-clockwise motion
+            
+            # Convert to degrees and adjust for pygame rotation
+            # Pygame rotates counter-clockwise for positive angles, but we need to account for flipped Y
+            rotation_degrees = math.degrees(tangent_angle)
+            
+            # Rotate car surface
+            rotated_surface = pygame.transform.rotate(car_surface, -rotation_degrees)
+            
+            # Position the rotated car
+            car_rect = rotated_surface.get_rect()
+            car_rect.center = (screen_x, screen_y)
+            
+            # Draw shadow first
+            shadow_rect = car_rect.copy()
+            shadow_rect.center = (screen_x + 2, screen_y + 2)
+            shadow_surface = rotated_surface.copy()
+            shadow_surface.fill((0, 0, 0, 60), special_flags=pygame.BLEND_RGBA_MULT)
+            self.screen.blit(shadow_surface, shadow_rect)
+            
+            # Draw main car
+            self.screen.blit(rotated_surface, car_rect)
         
-        pygame.draw.circle(self.screen, color, (screen_x, screen_y), car_radius)
-        pygame.draw.circle(self.screen, WHITE, (screen_x, screen_y), car_radius, 2)
-        
-        # Draw directional indicator (small line showing car's orientation)
-        direction_length = car_radius + 5
-        direction_angle = car.angle + math.pi / 2  # Perpendicular to radius
-        dir_x = int(screen_x + direction_length * math.cos(direction_angle))
-        dir_y = int(screen_y - direction_length * math.sin(direction_angle))
-        pygame.draw.line(self.screen, WHITE, (screen_x, screen_y), (dir_x, dir_y), 2)
-        
-        # Draw speed multiplier effect
+        # Draw speed multiplier effect with enhanced visuals
         if hasattr(car, 'speed_multiplier') and car.speed_multiplier != 1.0:
-            effect_color = GREEN if car.speed_multiplier > 1.0 else RED
-            pygame.draw.circle(self.screen, effect_color,
-                             (screen_x, screen_y), car_radius + 6, 3)
-                             
-        # Draw label
+            effect_radius = 20
+            if car.speed_multiplier > 1.0:
+                # Green boost effect with particles
+                effect_color = (0, 255, 0)
+                particle_color = (100, 255, 100)
+                # Draw pulsing effect
+                pulse_radius = int(effect_radius + 5 * math.sin(pygame.time.get_ticks() * 0.01))
+                pygame.draw.circle(self.screen, (*effect_color, 100), 
+                                 (screen_x, screen_y), pulse_radius, 3)
+                # Add particle effect
+                for i in range(3):
+                    offset_angle = car.angle + i * 2.1
+                    px = int(screen_x + 15 * math.cos(offset_angle))
+                    py = int(screen_y - 15 * math.sin(offset_angle))
+                    pygame.draw.circle(self.screen, particle_color, (px, py), 2)
+            else:
+                # Red slowdown effect
+                effect_color = (255, 0, 0)
+                pygame.draw.circle(self.screen, (*effect_color, 120), 
+                                 (screen_x, screen_y), effect_radius, 4)
+                # Add warning indicators
+                for i in range(4):
+                    angle = i * math.pi / 2
+                    px = int(screen_x + 25 * math.cos(angle))
+                    py = int(screen_y + 25 * math.sin(angle))
+                    pygame.draw.polygon(self.screen, effect_color, 
+                                      [(px, py-3), (px-3, py+3), (px+3, py+3)])
+        
+        # Draw enhanced label with background
         if label:
             text = self.small_font.render(label, True, WHITE)
-            text_rect = text.get_rect(center=(screen_x, screen_y - car_radius - 15))
+            text_rect = text.get_rect(center=(screen_x, screen_y - 25))
+            
+            # Background for label
+            bg_rect = text_rect.inflate(6, 2)
+            pygame.draw.rect(self.screen, (0, 0, 0, 180), bg_rect, border_radius=3)
+            pygame.draw.rect(self.screen, WHITE, bg_rect, 1, border_radius=3)
+            
             self.screen.blit(text, text_rect)
                 
     def render_cars(self, cars: List[Car]):
-        """Render all cars"""
+        """Render all cars with enhanced graphics"""
         for i, car in enumerate(cars):
             if isinstance(car, BaselineCar):
-                self.render_car(car, BLUE, "BASE")
+                self.render_car(car, "baseline", "BASE")
             elif isinstance(car, RLCar):
-                self.render_car(car, RED, "RL")
+                self.render_car(car, "dqn", "RL")
             else:
-                self.render_car(car, YELLOW, f"CAR{i}")
+                self.render_car(car, "default", f"CAR{i}")
                 
     def render_ui(self, cars: List[Car], race_time: float, episode: int = 0):
         """Render UI information for circular track"""
@@ -263,11 +474,11 @@ class GameRenderer:
             
     def render(self, track: Track, cars: List[Car], tile_manager: TileManager,
                race_time: float, episode: int = 0):
-        """Main render function for circular track"""
-        # Clear screen
-        self.screen.fill(BLACK)
+        """Main render function for circular track with enhanced graphics"""
+        # Draw grass background
+        self.screen.blit(self.grass_surface, (0, 0))
         
-        # Render components
+        # Render track and game components
         self.render_track(track)
         self.render_special_tiles(tile_manager)
         self.render_cars(cars)

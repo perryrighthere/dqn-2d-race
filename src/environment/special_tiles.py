@@ -75,51 +75,64 @@ class TileManager:
             tile_variation = np.random.randint(-3, 8)  # Can add 0-7 extra tiles
             num_tiles = max(base_tiles + tile_variation, 5)  # Minimum 5 tiles per lane
             
-            # Keep track of placed angles to avoid clustering
-            placed_angles = []
+            # Keep track of all placed tiles to avoid spatial overlap
+            placed_tiles = []  # List of (angle, radius, size) tuples
             
             for i in range(num_tiles):
                 attempts = 0
                 while attempts < 50:  # Prevent infinite loops
                     angle = np.random.uniform(0, 2 * math.pi)
                     
-                    # Check minimum distance from existing tiles (avoid clustering)
-                    min_angle_distance = 0.3  # Minimum angular separation
-                    too_close = False
-                    for existing_angle in placed_angles:
-                        angle_diff = min(abs(angle - existing_angle), 
-                                       2 * math.pi - abs(angle - existing_angle))
-                        if angle_diff < min_angle_distance:
-                            too_close = True
+                    # Add some radial variation within lane for more realism
+                    radius_variation = np.random.uniform(-8, 8)  # Small radius offset
+                    actual_radius = max(lane.inner_radius + 10, 
+                                      min(lane.outer_radius - 10, 
+                                          lane.center_radius + radius_variation))
+                    
+                    # Create candidate tile size
+                    candidate_size = TILE_SIZE + np.random.uniform(-5, 5)  # Slight size variation
+                    
+                    # Check for spatial overlap with all existing tiles
+                    overlapping = False
+                    for existing_angle, existing_radius, existing_size in placed_tiles:
+                        # Calculate cartesian distance between tile centers
+                        # d = sqrt(r1² + r2² - 2*r1*r2*cos(θ2 - θ1))
+                        angle_diff = angle - existing_angle
+                        cartesian_distance = math.sqrt(
+                            actual_radius**2 + existing_radius**2 - 
+                            2 * actual_radius * existing_radius * math.cos(angle_diff)
+                        )
+                        
+                        # Minimum separation should be sum of half-sizes plus small buffer
+                        min_separation = (candidate_size + existing_size) / 2 + 5  # 5 unit buffer
+                        
+                        if cartesian_distance < min_separation:
+                            overlapping = True
                             break
                     
-                    if not too_close:
-                        placed_angles.append(angle)
+                    if not overlapping:
+                        placed_tiles.append((angle, actual_radius, candidate_size))
                         break
                     attempts += 1
                 
-                # If we couldn't find a good spot, use random angle anyway
+                # If we couldn't find a non-overlapping spot, skip this tile
                 if attempts >= 50:
-                    angle = np.random.uniform(0, 2 * math.pi)
-                    placed_angles.append(angle)
+                    continue  # Skip this tile instead of forcing placement
+                
+                # Get the successfully placed tile parameters
+                angle, actual_radius, candidate_size = placed_tiles[-1]
                 
                 # More varied tile type selection with slight bias toward acceleration
                 tile_weights = [0.6, 0.4]  # 60% acceleration, 40% deceleration
                 tile_type = np.random.choice([TileType.ACCELERATION, TileType.DECELERATION], 
                                            p=tile_weights)
                 
-                # Add some radial variation within lane for more realism
-                radius_variation = np.random.uniform(-8, 8)  # Small radius offset
-                actual_radius = max(lane.inner_radius + 10, 
-                                  min(lane.outer_radius - 10, 
-                                      lane.center_radius + radius_variation))
-                
                 # Create tile with variations
                 tile = SpecialTile(
                     angle=angle,
                     radius=actual_radius,
                     tile_type=tile_type,
-                    size=TILE_SIZE + np.random.uniform(-5, 5)  # Slight size variation
+                    size=candidate_size  # Use the calculated size
                 )
                 
                 self.tiles.append(tile)

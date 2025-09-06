@@ -171,7 +171,11 @@ def main():
                 print("  1. Random agent vs Baseline")
                 print("  2. Trained DQN vs Baseline")
                 print("  3. Skip demo")
-                choice = input("Choose option (1/2/3): ").strip()
+                try:
+                    choice = input("Choose option (1/2/3): ").strip()
+                except EOFError:
+                    print("Running demo with enhanced visuals...")
+                    choice = "1"  # Default to random agent demo
                 
                 if choice == "1":
                     run_visual_demo(use_trained_model=False)
@@ -185,7 +189,12 @@ def main():
                 else:
                     print("Please enter 1, 2, or 3")
             else:
-                choice = input("Run visual demo? (y/n): ").lower().strip()
+                try:
+                    choice = input("Run visual demo? (y/n): ").lower().strip()
+                except EOFError:
+                    print("Running demo with enhanced visuals...")
+                    choice = "y"  # Default to yes
+                    
                 if choice in ['y', 'yes']:
                     run_visual_demo()
                     break

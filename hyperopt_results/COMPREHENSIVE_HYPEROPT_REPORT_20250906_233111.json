@@ -1,0 +1,729 @@
+{
+  "phase": "Phase 4 Part 2 - Comprehensive Hyperparameter Optimization",
+  "timestamp": "2025-09-06T23:31:11.844323",
+  "session_analysis": "manual_analysis_20250906_233111",
+  "total_experiments": 15,
+  "successful_experiments": 15,
+  "success_rate": 1.0,
+  "analysis_by_category": {
+    "learning_rate": {
+      "category": "learning_rate",
+      "experiments": 5,
+      "best_result": {
+        "config_id": "lr_0.0005_20250906_230524",
+        "category": "learning_rate",
+        "hyperparameters": {
+          "learning_rate": 0.0005,
+          "gamma": 0.99,
+          "epsilon": 1.0,
+          "epsilon_min": 0.05,
+          "epsilon_decay": 0.9995,
+          "buffer_size": 100000,
+          "batch_size": 64,
+          "update_freq": 4,
+          "target_update_freq": 1000,
+          "network_type": "double",
+          "buffer_type": "standard",
+          "hidden_layers": [
+            128,
+            128,
+            64
+          ]
+        },
+        "final_results": {
+          "avg_reward": 437.8000000000019,
+          "win_rate": 1.0,
+          "avg_race_time": 10.76833333333345,
+          "baseline_time": 180.0,
+          "time_improvement": 169.23166666666654,
+          "episode": 300
+        },
+        "training_duration": 79.3209719657898,
+        "success": true,
+        "error_message": null,
+        "timestamp": "2025-09-06T23:07:56.130149"
+      },
+      "all_results": [
+        {
+          "config_id": "lr_0.001_20250906_230524",
+          "category": "learning_rate",
+          "hyperparameters": {
+            "learning_rate": 0.001,
+            "gamma": 0.99,
+            "epsilon": 1.0,
+            "epsilon_min": 0.05,
+            "epsilon_decay": 0.9995,
+            "buffer_size": 100000,
+            "batch_size": 64,
+            "update_freq": 4,
+            "target_update_freq": 1000,
+            "network_type": "double",
+            "buffer_type": "standard",
+            "hidden_layers": [
+              128,
+              128,
+              64
+            ]
+          },
+          "final_results": {
+            "avg_reward": -36.204999999999636,
+            "win_rate": 0.0,
+            "avg_race_time": 18.850000000000207,
+            "baseline_time": 180.0,
+            "time_improvement": 161.1499999999998,
+            "episode": 300
+          },
+          "training_duration": 81.69618320465088,
+          "success": true,
+          "error_message": null,
+          "timestamp": "2025-09-06T23:09:17.839698"
+        },
+        {
+          "config_id": "lr_0.0001_20250906_230524",
+          "category": "learning_rate",
+          "hyperparameters": {
+            "learning_rate": 0.0001,
+            "gamma": 0.99,
+            "epsilon": 1.0,
+            "epsilon_min": 0.05,
+            "epsilon_decay": 0.9995,
+            "buffer_size": 100000,
+            "batch_size": 64,
+            "update_freq": 4,
+            "target_update_freq": 1000,
+            "network_type": "double",
+            "buffer_type": "standard",
+            "hidden_layers": [
+              128,
+              128,
+              64
+            ]
+          },
+          "final_results": {
+            "avg_reward": 305.7499999999978,
+            "win_rate": 0.5,
+            "avg_race_time": 18.409166666666902,
+            "baseline_time": 180.0,
+            "time_improvement": 161.5908333333331,
+            "episode": 300
+          },
+          "training_duration": 72.07237482070923,
+          "success": true,
+          "error_message": null,
+          "timestamp": "2025-09-06T23:06:36.796427"
+        },
+        {
+          "config_id": "lr_0.002_20250906_230524",
+          "category": "learning_rate",
+          "hyperparameters": {
+            "learning_rate": 0.002,
+            "gamma": 0.99,
+            "epsilon": 1.0,
+            "epsilon_min": 0.05,
+            "epsilon_decay": 0.9995,
+            "buffer_size": 100000,
+            "batch_size": 64,
+            "update_freq": 4,
+            "target_update_freq": 1000,
+            "network_type": "double",
+            "buffer_type": "standard",
+            "hidden_layers": [
+              128,
+              128,
+              64
+            ]
+          },
+          "final_results": {
+            "avg_reward": 16.84999999999987,
+            "win_rate": 0.0,
+            "avg_race_time": 18.850000000000207,
+            "baseline_time": 180.0,
+            "time_improvement": 161.1499999999998,
+            "episode": 300
+          },
+          "training_duration": 95.55757880210876,
+          "success": true,
+          "error_message": null,
+          "timestamp": "2025-09-06T23:10:53.410511"
+        },
+        {
+          "config_id": "lr_0.0005_20250906_230524",
+          "category": "learning_rate",
+          "hyperparameters": {
+            "learning_rate": 0.0005,
+            "gamma": 0.99,
+            "epsilon": 1.0,
+            "epsilon_min": 0.05,
+            "epsilon_decay": 0.9995,
+            "buffer_size": 100000,
+            "batch_size": 64,
+            "update_freq": 4,
+            "target_update_freq": 1000,
+            "network_type": "double",
+            "buffer_type": "standard",
+            "hidden_layers": [
+              128,
+              128,
+              64
+            ]
+          },
+          "final_results": {
+            "avg_reward": 437.8000000000019,
+            "win_rate": 1.0,
+            "avg_race_time": 10.76833333333345,
+            "baseline_time": 180.0,
+            "time_improvement": 169.23166666666654,
+            "episode": 300
+          },
+          "training_duration": 79.3209719657898,
+          "success": true,
+          "error_message": null,
+          "timestamp": "2025-09-06T23:07:56.130149"
+        },
+        {
+          "config_id": "lr_0.0001_20250906_232925",
+          "category": "learning_rate",
+          "hyperparameters": {
+            "learning_rate": 0.0001,
+            "gamma": 0.99,
+            "epsilon": 1.0,
+            "epsilon_min": 0.05,
+            "epsilon_decay": 0.9995,
+            "buffer_size": 100000,
+            "batch_size": 64,
+            "update_freq": 4,
+            "target_update_freq": 1000,
+            "network_type": "double",
+            "buffer_type": "standard",
+            "hidden_layers": [
+              128,
+              128,
+              64
+            ]
+          },
+          "final_results": {
+            "avg_reward": 305.7499999999978,
+            "win_rate": 0.5,
+            "avg_race_time": 18.409166666666902,
+            "baseline_time": 180.0,
+            "time_improvement": 161.5908333333331,
+            "episode": 300
+          },
+          "training_duration": 96.42736887931824,
+          "success": true,
+          "error_message": null,
+          "timestamp": "2025-09-06T23:31:02.122759"
+        }
+      ]
+    },
+    "architecture": {
+      "category": "architecture",
+      "experiments": 4,
+      "best_result": {
+        "config_id": "arch_current_baseline_20250906_230524",
+        "category": "architecture",
+        "hyperparameters": {
+          "learning_rate": 0.0005,
+          "gamma": 0.99,
+          "epsilon": 1.0,
+          "epsilon_min": 0.05,
+          "epsilon_decay": 0.9995,
+          "buffer_size": 100000,
+          "batch_size": 64,
+          "update_freq": 4,
+          "target_update_freq": 1000,
+          "network_type": "double",
+          "buffer_type": "standard",
+          "hidden_layers": [
+            128,
+            128,
+            64
+          ]
+        },
+        "final_results": {
+          "avg_reward": 437.8000000000019,
+          "win_rate": 1.0,
+          "avg_race_time": 10.76833333333345,
+          "baseline_time": 180.0,
+          "time_improvement": 169.23166666666654,
+          "episode": 300
+        },
+        "training_duration": 80.02467894554138,
+        "success": true,
+        "error_message": null,
+        "timestamp": "2025-09-06T23:13:21.253387"
+      },
+      "all_results": [
+        {
+          "config_id": "arch_simpler_20250906_230524",
+          "category": "architecture",
+          "hyperparameters": {
+            "learning_rate": 0.0005,
+            "gamma": 0.99,
+            "epsilon": 1.0,
+            "epsilon_min": 0.05,
+            "epsilon_decay": 0.9995,
+            "buffer_size": 100000,
+            "batch_size": 64,
+            "update_freq": 4,
+            "target_update_freq": 1000,
+            "network_type": "double",
+            "buffer_type": "standard",
+            "hidden_layers": [
+              128,
+              64
+            ]
+          },
+          "final_results": {
+            "avg_reward": 486.54500000000144,
+            "win_rate": 1.0,
+            "avg_race_time": 11.935000000000173,
+            "baseline_time": 180.0,
+            "time_improvement": 168.06499999999983,
+            "episode": 300
+          },
+          "training_duration": 73.65584993362427,
+          "success": true,
+          "error_message": null,
+          "timestamp": "2025-09-06T23:16:06.612554"
+        },
+        {
+          "config_id": "arch_current_baseline_20250906_230524",
+          "category": "architecture",
+          "hyperparameters": {
+            "learning_rate": 0.0005,
+            "gamma": 0.99,
+            "epsilon": 1.0,
+            "epsilon_min": 0.05,
+            "epsilon_decay": 0.9995,
+            "buffer_size": 100000,
+            "batch_size": 64,
+            "update_freq": 4,
+            "target_update_freq": 1000,
+            "network_type": "double",
+            "buffer_type": "standard",
+            "hidden_layers": [
+              128,
+              128,
+              64
+            ]
+          },
+          "final_results": {
+            "avg_reward": 437.8000000000019,
+            "win_rate": 1.0,
+            "avg_race_time": 10.76833333333345,
+            "baseline_time": 180.0,
+            "time_improvement": 169.23166666666654,
+            "episode": 300
+          },
+          "training_duration": 80.02467894554138,
+          "success": true,
+          "error_message": null,
+          "timestamp": "2025-09-06T23:13:21.253387"
+        },
+        {
+          "config_id": "arch_larger_capacity_20250906_230524",
+          "category": "architecture",
+          "hyperparameters": {
+            "learning_rate": 0.0005,
+            "gamma": 0.99,
+            "epsilon": 1.0,
+            "epsilon_min": 0.05,
+            "epsilon_decay": 0.9995,
+            "buffer_size": 100000,
+            "batch_size": 64,
+            "update_freq": 4,
+            "target_update_freq": 1000,
+            "network_type": "double",
+            "buffer_type": "standard",
+            "hidden_layers": [
+              256,
+              128,
+              64
+            ]
+          },
+          "final_results": {
+            "avg_reward": 517.2750000000007,
+            "win_rate": 1.0,
+            "avg_race_time": 12.117500000000181,
+            "baseline_time": 180.0,
+            "time_improvement": 167.88249999999982,
+            "episode": 300
+          },
+          "training_duration": 91.67422795295715,
+          "success": true,
+          "error_message": null,
+          "timestamp": "2025-09-06T23:14:52.941771"
+        },
+        {
+          "config_id": "arch_smaller_fast_20250906_230524",
+          "category": "architecture",
+          "hyperparameters": {
+            "learning_rate": 0.0005,
+            "gamma": 0.99,
+            "epsilon": 1.0,
+            "epsilon_min": 0.05,
+            "epsilon_decay": 0.9995,
+            "buffer_size": 100000,
+            "batch_size": 64,
+            "update_freq": 4,
+            "target_update_freq": 1000,
+            "network_type": "double",
+            "buffer_type": "standard",
+            "hidden_layers": [
+              64,
+              64,
+              32
+            ]
+          },
+          "final_results": {
+            "avg_reward": 606.3549999999955,
+            "win_rate": 0.85,
+            "avg_race_time": 17.161666666666953,
+            "baseline_time": 180.0,
+            "time_improvement": 162.83833333333305,
+            "episode": 300
+          },
+          "training_duration": 67.78955292701721,
+          "success": true,
+          "error_message": null,
+          "timestamp": "2025-09-06T23:12:01.214329"
+        }
+      ]
+    },
+    "exploration": {
+      "category": "exploration",
+      "experiments": 3,
+      "best_result": {
+        "config_id": "explore_balanced_20250906_230524",
+        "category": "exploration",
+        "hyperparameters": {
+          "learning_rate": 0.0005,
+          "gamma": 0.99,
+          "epsilon": 1.0,
+          "epsilon_min": 0.05,
+          "epsilon_decay": 0.9995,
+          "buffer_size": 100000,
+          "batch_size": 64,
+          "update_freq": 4,
+          "target_update_freq": 1000,
+          "network_type": "double",
+          "buffer_type": "standard",
+          "hidden_layers": [
+            128,
+            128,
+            64
+          ]
+        },
+        "final_results": {
+          "avg_reward": 437.8000000000019,
+          "win_rate": 1.0,
+          "avg_race_time": 10.76833333333345,
+          "baseline_time": 180.0,
+          "time_improvement": 169.23166666666654,
+          "episode": 300
+        },
+        "training_duration": 91.83316683769226,
+        "success": true,
+        "error_message": null,
+        "timestamp": "2025-09-06T23:19:26.951515"
+      },
+      "all_results": [
+        {
+          "config_id": "explore_aggressive_20250906_230524",
+          "category": "exploration",
+          "hyperparameters": {
+            "learning_rate": 0.0005,
+            "gamma": 0.99,
+            "epsilon": 1.0,
+            "epsilon_min": 0.1,
+            "epsilon_decay": 0.995,
+            "buffer_size": 100000,
+            "batch_size": 64,
+            "update_freq": 4,
+            "target_update_freq": 1000,
+            "network_type": "double",
+            "buffer_type": "standard",
+            "hidden_layers": [
+              128,
+              128,
+              64
+            ]
+          },
+          "final_results": {
+            "avg_reward": 436.51500000000004,
+            "win_rate": 0.95,
+            "avg_race_time": 13.670833333333562,
+            "baseline_time": 180.0,
+            "time_improvement": 166.32916666666642,
+            "episode": 300
+          },
+          "training_duration": 86.62777519226074,
+          "success": true,
+          "error_message": null,
+          "timestamp": "2025-09-06T23:20:53.593786"
+        },
+        {
+          "config_id": "explore_conservative_20250906_230524",
+          "category": "exploration",
+          "hyperparameters": {
+            "learning_rate": 0.0005,
+            "gamma": 0.99,
+            "epsilon": 1.0,
+            "epsilon_min": 0.01,
+            "epsilon_decay": 0.999,
+            "buffer_size": 100000,
+            "batch_size": 64,
+            "update_freq": 4,
+            "target_update_freq": 1000,
+            "network_type": "double",
+            "buffer_type": "standard",
+            "hidden_layers": [
+              128,
+              128,
+              64
+            ]
+          },
+          "final_results": {
+            "avg_reward": 604.4599999999984,
+            "win_rate": 1.0,
+            "avg_race_time": 13.46250000000025,
+            "baseline_time": 180.0,
+            "time_improvement": 166.53749999999974,
+            "episode": 300
+          },
+          "training_duration": 108.47119188308716,
+          "success": true,
+          "error_message": null,
+          "timestamp": "2025-09-06T23:17:55.098808"
+        },
+        {
+          "config_id": "explore_balanced_20250906_230524",
+          "category": "exploration",
+          "hyperparameters": {
+            "learning_rate": 0.0005,
+            "gamma": 0.99,
+            "epsilon": 1.0,
+            "epsilon_min": 0.05,
+            "epsilon_decay": 0.9995,
+            "buffer_size": 100000,
+            "batch_size": 64,
+            "update_freq": 4,
+            "target_update_freq": 1000,
+            "network_type": "double",
+            "buffer_type": "standard",
+            "hidden_layers": [
+              128,
+              128,
+              64
+            ]
+          },
+          "final_results": {
+            "avg_reward": 437.8000000000019,
+            "win_rate": 1.0,
+            "avg_race_time": 10.76833333333345,
+            "baseline_time": 180.0,
+            "time_improvement": 169.23166666666654,
+            "episode": 300
+          },
+          "training_duration": 91.83316683769226,
+          "success": true,
+          "error_message": null,
+          "timestamp": "2025-09-06T23:19:26.951515"
+        }
+      ]
+    },
+    "replay": {
+      "category": "replay",
+      "experiments": 3,
+      "best_result": {
+        "config_id": "replay_medium_20250906_230524",
+        "category": "replay",
+        "hyperparameters": {
+          "learning_rate": 0.0005,
+          "gamma": 0.99,
+          "epsilon": 1.0,
+          "epsilon_min": 0.05,
+          "epsilon_decay": 0.9995,
+          "buffer_size": 100000,
+          "batch_size": 64,
+          "update_freq": 4,
+          "target_update_freq": 1000,
+          "network_type": "double",
+          "buffer_type": "standard",
+          "hidden_layers": [
+            128,
+            128,
+            64
+          ]
+        },
+        "final_results": {
+          "avg_reward": 437.8000000000019,
+          "win_rate": 1.0,
+          "avg_race_time": 10.76833333333345,
+          "baseline_time": 180.0,
+          "time_improvement": 169.23166666666654,
+          "episode": 300
+        },
+        "training_duration": 101.08412599563599,
+        "success": true,
+        "error_message": null,
+        "timestamp": "2025-09-06T23:24:02.404987"
+      },
+      "all_results": [
+        {
+          "config_id": "replay_small_20250906_230524",
+          "category": "replay",
+          "hyperparameters": {
+            "learning_rate": 0.0005,
+            "gamma": 0.99,
+            "epsilon": 1.0,
+            "epsilon_min": 0.05,
+            "epsilon_decay": 0.9995,
+            "buffer_size": 50000,
+            "batch_size": 32,
+            "update_freq": 4,
+            "target_update_freq": 1000,
+            "network_type": "double",
+            "buffer_type": "standard",
+            "hidden_layers": [
+              128,
+              128,
+              64
+            ]
+          },
+          "final_results": {
+            "avg_reward": 510.7350000000014,
+            "win_rate": 1.0,
+            "avg_race_time": 12.823333333333547,
+            "baseline_time": 180.0,
+            "time_improvement": 167.17666666666645,
+            "episode": 300
+          },
+          "training_duration": 87.70263004302979,
+          "success": true,
+          "error_message": null,
+          "timestamp": "2025-09-06T23:22:21.313212"
+        },
+        {
+          "config_id": "replay_large_20250906_230524",
+          "category": "replay",
+          "hyperparameters": {
+            "learning_rate": 0.0005,
+            "gamma": 0.99,
+            "epsilon": 1.0,
+            "epsilon_min": 0.05,
+            "epsilon_decay": 0.9995,
+            "buffer_size": 200000,
+            "batch_size": 128,
+            "update_freq": 4,
+            "target_update_freq": 1000,
+            "network_type": "double",
+            "buffer_type": "standard",
+            "hidden_layers": [
+              128,
+              128,
+              64
+            ]
+          },
+          "final_results": {
+            "avg_reward": 597.6799999999996,
+            "win_rate": 1.0,
+            "avg_race_time": 15.160000000000315,
+            "baseline_time": 180.0,
+            "time_improvement": 164.8399999999997,
+            "episode": 300
+          },
+          "training_duration": 129.53426313400269,
+          "success": true,
+          "error_message": null,
+          "timestamp": "2025-09-06T23:26:11.953795"
+        },
+        {
+          "config_id": "replay_medium_20250906_230524",
+          "category": "replay",
+          "hyperparameters": {
+            "learning_rate": 0.0005,
+            "gamma": 0.99,
+            "epsilon": 1.0,
+            "epsilon_min": 0.05,
+            "epsilon_decay": 0.9995,
+            "buffer_size": 100000,
+            "batch_size": 64,
+            "update_freq": 4,
+            "target_update_freq": 1000,
+            "network_type": "double",
+            "buffer_type": "standard",
+            "hidden_layers": [
+              128,
+              128,
+              64
+            ]
+          },
+          "final_results": {
+            "avg_reward": 437.8000000000019,
+            "win_rate": 1.0,
+            "avg_race_time": 10.76833333333345,
+            "baseline_time": 180.0,
+            "time_improvement": 169.23166666666654,
+            "episode": 300
+          },
+          "training_duration": 101.08412599563599,
+          "success": true,
+          "error_message": null,
+          "timestamp": "2025-09-06T23:24:02.404987"
+        }
+      ]
+    }
+  },
+  "final_recommendations": {
+    "learning_rate": 0.0005,
+    "gamma": 0.99,
+    "epsilon": 1.0,
+    "epsilon_min": 0.05,
+    "epsilon_decay": 0.9995,
+    "buffer_size": 100000,
+    "batch_size": 64,
+    "hidden_layers": [
+      128,
+      128,
+      64
+    ],
+    "network_type": "double",
+    "buffer_type": "standard"
+  },
+  "overall_best_configuration": {
+    "config_id": "lr_0.0005_20250906_230524",
+    "category": "learning_rate",
+    "hyperparameters": {
+      "learning_rate": 0.0005,
+      "gamma": 0.99,
+      "epsilon": 1.0,
+      "epsilon_min": 0.05,
+      "epsilon_decay": 0.9995,
+      "buffer_size": 100000,
+      "batch_size": 64,
+      "update_freq": 4,
+      "target_update_freq": 1000,
+      "network_type": "double",
+      "buffer_type": "standard",
+      "hidden_layers": [
+        128,
+        128,
+        64
+      ]
+    },
+    "final_results": {
+      "avg_reward": 437.8000000000019,
+      "win_rate": 1.0,
+      "avg_race_time": 10.76833333333345,
+      "baseline_time": 180.0,
+      "time_improvement": 169.23166666666654,
+      "episode": 300
+    },
+    "training_duration": 79.3209719657898,
+    "success": true,
+    "error_message": null,
+    "timestamp": "2025-09-06T23:07:56.130149"
+  }
+}

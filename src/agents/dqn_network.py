@@ -2,42 +2,59 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
-from typing import Tuple
+from typing import Tuple, List
 
 class DQNNetwork(nn.Module):
-    """Deep Q-Network for 2D Car Racing Agent"""
+    """Deep Q-Network for 2D Car Racing Agent with configurable architecture"""
     
     def __init__(self, state_size: int = 11, action_size: int = 5, 
-                 hidden_size: int = 128, dropout_rate: float = 0.1):
+                 hidden_layers: List[int] = None, dropout_rate: float = 0.1):
         super(DQNNetwork, self).__init__()
         
         self.state_size = state_size
         self.action_size = action_size
         
-        # Network architecture optimized for racing task
-        # Input: state_size (11) -> car state (5) + tile info (6)
-        self.fc1 = nn.Linear(state_size, hidden_size)
-        self.dropout1 = nn.Dropout(dropout_rate)
+        # Default architecture if none provided
+        if hidden_layers is None:
+            hidden_layers = [128, 128, 64]
         
-        self.fc2 = nn.Linear(hidden_size, hidden_size)
-        self.dropout2 = nn.Dropout(dropout_rate)
+        self.hidden_layers = hidden_layers
         
-        self.fc3 = nn.Linear(hidden_size, hidden_size // 2)
-        self.dropout3 = nn.Dropout(dropout_rate)
+        # Build configurable network architecture
+        layers = []
+        dropouts = []
         
-        # Dueling DQN architecture
+        # Input layer
+        prev_size = state_size
+        for i, hidden_size in enumerate(hidden_layers):
+            layers.append(nn.Linear(prev_size, hidden_size))
+            dropouts.append(nn.Dropout(dropout_rate))
+            prev_size = hidden_size
+        
+        self.hidden_nets = nn.ModuleList(layers)
+        self.dropout_layers = nn.ModuleList(dropouts)
+        
+        # Dueling DQN architecture - use last hidden layer size
+        final_hidden_size = hidden_layers[-1]
+        
         # Value stream - estimates state value
-        self.value_stream = nn.Linear(hidden_size // 2, 1)
+        self.value_stream = nn.Linear(final_hidden_size, 1)
         
         # Advantage stream - estimates action advantages
-        self.advantage_stream = nn.Linear(hidden_size // 2, action_size)
+        self.advantage_stream = nn.Linear(final_hidden_size, action_size)
         
         # Initialize weights
         self._init_weights()
         
     def _init_weights(self):
         """Initialize network weights using Xavier initialization"""
-        for layer in [self.fc1, self.fc2, self.fc3, self.value_stream, self.advantage_stream]:
+        # Initialize hidden layers
+        for layer in self.hidden_nets:
+            nn.init.xavier_uniform_(layer.weight)
+            nn.init.zeros_(layer.bias)
+        
+        # Initialize dueling streams
+        for layer in [self.value_stream, self.advantage_stream]:
             nn.init.xavier_uniform_(layer.weight)
             nn.init.zeros_(layer.bias)
     
@@ -47,15 +64,11 @@ class DQNNetwork(nn.Module):
         if state.dtype != torch.float32:
             state = state.float()
             
-        # Feature extraction layers
-        x = F.relu(self.fc1(state))
-        x = self.dropout1(x)
-        
-        x = F.relu(self.fc2(x))
-        x = self.dropout2(x)
-        
-        x = F.relu(self.fc3(x))
-        x = self.dropout3(x)
+        # Forward pass through configurable hidden layers
+        x = state
+        for i, (layer, dropout) in enumerate(zip(self.hidden_nets, self.dropout_layers)):
+            x = F.relu(layer(x))
+            x = dropout(x)
         
         # Dueling DQN: split into value and advantage streams
         value = self.value_stream(x)  # Shape: (batch_size, 1)
@@ -90,14 +103,18 @@ class DoubleDQNNetwork(nn.Module):
     """Double DQN implementation with separate target network"""
     
     def __init__(self, state_size: int = 11, action_size: int = 5, 
-                 hidden_size: int = 128, dropout_rate: float = 0.1):
+                 hidden_layers: List[int] = None, dropout_rate: float = 0.1):
         super(DoubleDQNNetwork, self).__init__()
         
+        # Default architecture if none provided
+        if hidden_layers is None:
+            hidden_layers = [128, 128, 64]
+        
         # Main network (online network)
-        self.online_network = DQNNetwork(state_size, action_size, hidden_size, dropout_rate)
+        self.online_network = DQNNetwork(state_size, action_size, hidden_layers, dropout_rate)
         
         # Target network (for stable training)
-        self.target_network = DQNNetwork(state_size, action_size, hidden_size, dropout_rate)
+        self.target_network = DQNNetwork(state_size, action_size, hidden_layers, dropout_rate)
         
         # Copy weights from online to target network
         self.update_target_network()

@@ -26,16 +26,28 @@ python train_dqn.py --config fast --episodes 200
 python train_dqn.py --config standard --episodes 1000
 ```
 
-### 4. Test Trained Agent
+### 4. 🔬 **NEW: Optimize Hyperparameters (Recommended)**
+```bash
+# Comprehensive hyperparameter optimization across 5 categories
+python comprehensive_hyperopt.py --quick
+
+# Analysis and best configuration recommendations
+python analyze_phase4_part2.py
+```
+
+### 5. Test Trained Agent
 ```bash
 # Visual demo with trained model
 python demo_trained.py
 
 # Quick performance evaluation
 python demo_trained.py --headless --races 20
+
+# Test optimized model (after hyperparameter optimization)
+python demo_trained.py --model hyperopt_results/models/lr_0.0005_*/dqn_racing_final.pth
 ```
 
-### 5. Test Enhanced Tile System
+### 6. Test Enhanced Tile System
 ```bash
 # View tile statistics and distribution
 python test_tiles.py
@@ -360,15 +372,95 @@ python demo_trained.py --headless --races 5
 
 ---
 
+## 🔬 Phase 4 Part 2: Hyperparameter Optimization
+
+### Comprehensive Hyperparameter Optimization
+
+After completing basic training, optimize your DQN agent's hyperparameters systematically across 5 key categories:
+
+#### Run Complete Optimization (All Categories)
+```bash
+# Complete optimization pipeline (500 episodes per experiment)
+python comprehensive_hyperopt.py
+
+# Quick optimization for testing (300 episodes per experiment) 
+python comprehensive_hyperopt.py --quick
+
+# Custom episodes per experiment
+python comprehensive_hyperopt.py --episodes 750
+```
+
+#### Optimization Categories Covered
+1. **Learning Rate Optimization**: [0.0001, 0.0005, 0.001, 0.002]
+2. **Network Architecture**: [[64,64,32], [128,128,64], [256,128,64], [128,64]]
+3. **Exploration Strategy**: epsilon decay rates [0.999, 0.9995, 0.995]  
+4. **Experience Replay**: buffer/batch size combinations
+5. **Reward Function**: gamma discount factors [0.95, 0.99, 0.995]
+
+#### Analyze Optimization Results
+```bash
+# Comprehensive analysis with plots and recommendations
+python analyze_phase4_part2.py
+
+# Analyze specific results directory
+python analyze_phase4_part2.py --results-dir hyperopt_results
+```
+
+#### Test Optimized Models
+```bash
+# Test best learning rate model
+python demo_trained.py --model hyperopt_results/models/lr_0.0005_*/dqn_racing_final.pth
+
+# Compare different optimized configurations
+python demo_trained.py --model hyperopt_results/models/arch_*/dqn_racing_final.pth --races 10
+```
+
+### Expected Optimization Results
+
+#### Performance Improvements Achieved
+- **Learning Rate 0.0005**: 100% win rate (vs 50-0% for other rates)
+- **Optimal Architecture**: [Results from ongoing optimization]
+- **Best Exploration**: [Results from ongoing optimization]
+- **Ideal Replay Config**: [Results from ongoing optimization]
+
+#### Generated Files
+```
+hyperopt_results/
+├── models/                          # Trained models for each configuration
+├── logs/                           # Training statistics and logs
+├── plots/                          # Performance analysis visualizations
+├── COMPREHENSIVE_HYPEROPT_REPORT_*.md  # Detailed optimization report
+└── PHASE4_PART2_RECOMMENDATIONS.json  # Best hyperparameters
+```
+
+#### Understanding Optimization Output
+```
+🧮 2.1 LEARNING RATE OPTIMIZATION
+📊 Experiment 1/4: Learning Rate = 0.0001
+   ✅ Success: Win Rate: 50.0%, Time Improvement: +161.59s, Duration: 72s
+```
+- **Win Rate**: Percentage of races won against baseline
+- **Time Improvement**: Seconds faster than baseline (positive = faster)
+- **Duration**: Training time for this configuration
+
+---
+
 ## 🎯 Next Steps
 
-After successful training:
+After successful training and optimization:
 
+### Basic Training Path
 1. **Evaluate Performance**: Use `demo_trained.py` to test win rate
 2. **Test Enhanced Tiles**: Use `test_tiles.py` to see improved tile distribution
 3. **Experiment with Training**: Try different configurations with more tiles
 4. **Analyze Strategy**: Watch races to see learned tile utilization behaviors
-5. **Optimize Further**: Adjust hyperparameters for the richer environment
+
+### Advanced Optimization Path (Recommended)
+1. **Run Hyperparameter Optimization**: Use `comprehensive_hyperopt.py` to find optimal settings
+2. **Analyze Results**: Use `analyze_phase4_part2.py` to understand performance patterns
+3. **Apply Best Configuration**: Use optimized hyperparameters for extended training
+4. **Phase 4 Part 3**: Advanced training with optimal hyperparameters (2000+ episodes)
+5. **Final Evaluation**: Tournament-style competition and statistical validation
 
 ---
 

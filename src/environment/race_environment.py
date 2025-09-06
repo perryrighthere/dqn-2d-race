@@ -108,6 +108,7 @@ class RaceEnvironment(gym.Env):
         # Get observation and info
         observation = self._get_observation()
         info = self._get_info()
+        info['winner'] = winner  # Add winner to info
         
         # Render if needed
         if self.render_mode == "human" and self.renderer:

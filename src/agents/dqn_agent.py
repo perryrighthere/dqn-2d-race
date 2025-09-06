@@ -21,7 +21,7 @@ class DQNAgent:
                  batch_size: int = 64, update_freq: int = 4,
                  target_update_freq: int = 100, device: str = "auto",
                  network_type: str = "double", buffer_type: str = "standard",
-                 seed: int = 42):
+                 hidden_layers: List[int] = None, seed: int = 42):
         """Initialize DQN Agent
         
         Args:
@@ -39,6 +39,7 @@ class DQNAgent:
             device: Computing device ("cpu", "cuda", or "auto")
             network_type: "simple" or "double" DQN
             buffer_type: "standard" or "prioritized" replay buffer
+            hidden_layers: List of hidden layer sizes (e.g., [128, 128, 64])
             seed: Random seed for reproducibility
         """
         
@@ -77,13 +78,13 @@ class DQNAgent:
         self.network_type = network_type
         if network_type == "double":
             self.q_network = create_dqn_network(
-                state_size, action_size, network_type="double"
+                state_size, action_size, network_type="double", hidden_layers=hidden_layers
             ).to(self.device)
             self.optimizer = optim.Adam(self.q_network.online_network.parameters(), 
                                       lr=learning_rate)
         else:
             self.q_network = create_dqn_network(
-                state_size, action_size, network_type="simple"
+                state_size, action_size, network_type="simple", hidden_layers=hidden_layers
             ).to(self.device)
             self.optimizer = optim.Adam(self.q_network.parameters(), lr=learning_rate)
         
@@ -299,6 +300,7 @@ def create_racing_dqn_agent(config: Dict = None) -> DQNAgent:
         'target_update_freq': 1000,  # Update target every 1000 steps
         'network_type': 'double',    # Use double DQN
         'buffer_type': 'standard',   # Standard replay buffer
+        'hidden_layers': [128, 128, 64],  # Default network architecture
         'device': 'auto',
         'seed': 42
     }

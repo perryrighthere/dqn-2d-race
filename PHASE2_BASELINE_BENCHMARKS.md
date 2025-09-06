@@ -2,10 +2,12 @@
 
 ## Performance Summary
 
+**Generated**: 2025-09-06T15:21:27.577087
+
 ### Race Completion Benchmarks
-- **Mean Race Time**: 180.00 seconds
-- **Standard Deviation**: 0.00 seconds
-- **Consistency (CV)**: 0.000
+- **Mean Race Time**: 18.83 seconds
+- **Standard Deviation**: 0.09 seconds
+- **Consistency (CV)**: 0.005
 
 ### Baseline Agent Validation
 - **Success Rate**: 100.0%

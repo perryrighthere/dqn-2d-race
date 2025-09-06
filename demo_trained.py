@@ -112,12 +112,19 @@ def run_trained_demo(model_path: str, num_races: int = 3):
                     print(f"  Winner: {winner}")
                     print(f"  Race time: {info.get('race_time', 0):.1f} seconds")
                     
+                    # Map environment winner names to demo names
+                    demo_winner = winner
+                    if winner == "RL":
+                        demo_winner = "dqn"
+                    elif winner == "Baseline":
+                        demo_winner = "baseline"
+                    
                     # Track statistics
-                    if winner not in wins:
-                        wins[winner] = 0
-                    wins[winner] += 1
-                    if winner in race_times:
-                        race_times[winner].append(info.get('race_time', 0))
+                    if demo_winner not in wins:
+                        wins[demo_winner] = 0
+                    wins[demo_winner] += 1
+                    if demo_winner in race_times:
+                        race_times[demo_winner].append(info.get('race_time', 0))
                     
                     # Wait before next race
                     if race < num_races - 1:
@@ -203,12 +210,19 @@ def run_headless_evaluation(model_path: str, num_races: int = 10):
                 if winner is None:
                     winner = 'timeout'
                 
-                if winner not in wins:
-                    wins[winner] = 0
-                wins[winner] += 1
+                # Map environment winner names to demo names
+                demo_winner = winner
+                if winner == "RL":
+                    demo_winner = "dqn"
+                elif winner == "Baseline":
+                    demo_winner = "baseline"
                 
-                if winner in race_times:
-                    race_times[winner].append(info.get('race_time', 0))
+                if demo_winner not in wins:
+                    wins[demo_winner] = 0
+                wins[demo_winner] += 1
+                
+                if demo_winner in race_times:
+                    race_times[demo_winner].append(info.get('race_time', 0))
                 
                 rewards.append(total_reward)
                 race_time = info.get('race_time', 0)
