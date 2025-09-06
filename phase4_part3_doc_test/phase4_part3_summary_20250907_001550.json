@@ -1,0 +1,16 @@
+{
+  "seeds": [
+    111
+  ],
+  "final_win_rate_mean": 1.0,
+  "final_time_improvement_mean": 8.482777777777898,
+  "final_avg_time_mean": 10.351666666666759,
+  "stability": {
+    "111": {
+      "mean_win_rate_last3": 1.0,
+      "var_win_rate_last3": 0.0
+    }
+  },
+  "best_seed": 111,
+  "completed_at": "2025-09-07T00:15:50.088799"
+}

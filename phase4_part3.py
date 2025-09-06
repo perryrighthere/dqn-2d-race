@@ -21,7 +21,7 @@ def build_part3_config(episodes: int, output_dir: str, seed: int, use_curriculum
     config['save_freq'] = 250
     config['eval_freq'] = 50
     config['seed'] = seed
-    config['plot_training'] = True
+    config['plot_training'] = False  # Disable plotting for long multi-seed runs
     config['render_training'] = False
 
     # Ensure optimized hyperparameters are present
@@ -172,4 +172,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
