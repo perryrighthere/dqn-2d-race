@@ -163,8 +163,8 @@ class Track:
         """Convert cartesian coordinates to angle"""
         return math.atan2(y, x)
         
-    def reset(self):
+    def reset(self, density: float = None):
         """Reset track state and regenerate tiles"""
         for lane in self.lanes:
             lane.special_tiles.clear()
-        self.generate_special_tiles()
+        self.generate_special_tiles(density=density if density is not None else TILE_DENSITY)

@@ -18,6 +18,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__)))
 
 from src.environment.race_environment import RaceEnvironment
 from src.agents.dqn_agent import create_racing_dqn_agent, DQNAgent
+from glob import glob
 
 class TrainingManager:
     """Manages DQN training process and logging"""
@@ -57,10 +58,22 @@ class TrainingManager:
                 'buffer_type': 'standard'
             },
             
+            # Evaluation parameters
+            'eval_tile_density': None,  # Use this tile density during eval if set
+            
             # Logging and saving
             'save_dir': 'models',
             'log_dir': 'logs',
-            'plot_training': True
+            'plot_training': True,
+
+            # Curriculum learning (optional)
+            'curriculum': {
+                'enabled': False,
+                'stages': [],  # e.g., [{'start_episode':1,'tile_density':0.5}, ...]
+                'adaptive': True,
+                'advance_win_rate': 0.85,
+                'window': 50
+            }
         }
         
         if config:
@@ -78,6 +91,7 @@ class TrainingManager:
             'losses': [],
             'epsilons': [],
             'race_times': [],
+            'tile_density': [],
             'evaluation_results': []
         }
         
@@ -119,7 +133,10 @@ class TrainingManager:
         
     def train_episode(self, episode: int) -> Tuple[float, bool, Dict]:
         """Train for one episode"""
-        state, info = self.env.reset(seed=self.config['seed'] + episode)
+        # Determine curriculum tile density for this episode
+        tile_density = self._get_tile_density_for_episode(episode)
+        state, info = self.env.reset(seed=self.config['seed'] + episode,
+                                     options={'tile_density': tile_density})
         total_reward = 0.0
         steps = 0
         episode_info = {
@@ -172,8 +189,10 @@ class TrainingManager:
         eval_wins = []
         eval_race_times = []
         
+        eval_tile_density = self.config.get('eval_tile_density')
         for episode in range(num_episodes):
-            state, info = self.env.reset(seed=1000 + episode)  # Different seed for eval
+            state, info = self.env.reset(seed=1000 + episode,
+                                         options={'tile_density': eval_tile_density})  # Different seed for eval
             total_reward = 0.0
             
             for step in range(self.config['max_steps_per_episode']):
@@ -192,20 +211,38 @@ class TrainingManager:
             eval_wins.append(info.get('winner') == 'RL')
             eval_race_times.append(info['race_time'])
         
+        # Determine baseline time (load latest measured mean if available)
+        def _load_baseline_time(default: float = 18.83) -> float:
+            try:
+                files = sorted(glob("baseline_benchmark_*.json"))
+                if files:
+                    latest = files[-1]
+                    with open(latest, 'r') as f:
+                        data = json.load(f)
+                    stats = data.get('statistical_analysis', {}).get('completion_time_stats', {})
+                    mean_time = stats.get('mean')
+                    if isinstance(mean_time, (int, float)) and mean_time > 0:
+                        return float(mean_time)
+            except Exception:
+                pass
+            return default
+
+        baseline_time_val = _load_baseline_time()
+
         # Calculate statistics
         eval_results = {
             'avg_reward': np.mean(eval_rewards),
             'win_rate': np.mean(eval_wins),
             'avg_race_time': np.mean(eval_race_times),
-            'baseline_time': 180.0,  # Known baseline completion time
-            'time_improvement': 180.0 - np.mean(eval_race_times)
+            'baseline_time': baseline_time_val,
+            'time_improvement': baseline_time_val - np.mean(eval_race_times)
         }
         
         print(f"Evaluation Results:")
         print(f"  Average Reward: {eval_results['avg_reward']:.2f}")
         print(f"  Win Rate: {eval_results['win_rate']:.1%}")
         print(f"  Average Race Time: {eval_results['avg_race_time']:.2f}s")
-        print(f"  Time vs Baseline: {eval_results['time_improvement']:+.2f}s")
+        print(f"  Time vs Baseline: {eval_results['time_improvement']:+.2f}s (baseline {baseline_time_val:.2f}s)")
         
         return eval_results
     
@@ -224,6 +261,12 @@ class TrainingManager:
             self.training_history['wins'].append(won)
             self.training_history['race_times'].append(episode_info['race_time'])
             self.training_history['epsilons'].append(self.agent.epsilon)
+            # Record tile density used (None means default)
+            # Note: last reset's tile density is stored in env.info as well
+            try:
+                self.training_history['tile_density'].append(self.env.tile_density)
+            except Exception:
+                self.training_history['tile_density'].append(None)
             
             # Store recent loss
             recent_losses = self.agent.losses[-10:] if self.agent.losses else [0]
@@ -364,6 +407,32 @@ class TrainingManager:
         if self.env:
             self.env.close()
 
+    def _get_tile_density_for_episode(self, episode: int) -> float:
+        """Return tile density for current episode based on curriculum config"""
+        curriculum = self.config.get('curriculum', {}) or {}
+        if not curriculum.get('enabled'):
+            return None  # Use environment default
+        stages = sorted(curriculum.get('stages', []), key=lambda s: s.get('start_episode', 1))
+        if not stages:
+            return None
+        # Determine stage by episode
+        current_density = stages[0].get('tile_density')
+        for st in stages:
+            if episode >= st.get('start_episode', 1):
+                current_density = st.get('tile_density', current_density)
+            else:
+                break
+        # Simple adaptive advancement: if recent win rate is high, use next stage density
+        if curriculum.get('adaptive') and len(self.training_history['wins']) >= curriculum.get('window', 50):
+            window = curriculum.get('window', 50)
+            win_rate_recent = np.mean(self.training_history['wins'][-window:])
+            if win_rate_recent >= curriculum.get('advance_win_rate', 0.85):
+                for st in stages:
+                    if st.get('start_episode', 1) > episode:
+                        current_density = st.get('tile_density', current_density)
+                        break
+        return current_density
+
 def create_training_config(config_type: str = "standard") -> Dict:
     """Create predefined training configurations"""
     
@@ -384,12 +453,28 @@ def create_training_config(config_type: str = "standard") -> Dict:
             'eval_freq': 50
         },
         "deep": {  # Extensive training
-            'num_episodes': 2000,
-            'save_freq': 100,
-            'eval_freq': 25,
+            'num_episodes': 2500,
+            'save_freq': 250,
+            'eval_freq': 50,
             'agent_config': {
-                'buffer_size': 200000,
-                'epsilon_decay': 0.9998
+                # Optimized hyperparameters from Phase 4 Part 2
+                'buffer_size': 100000,
+                'epsilon_decay': 0.9995,
+                'batch_size': 64,
+                'learning_rate': 0.0005,
+                'gamma': 0.99
+            },
+            'eval_tile_density': 0.8,
+            'curriculum': {
+                'enabled': True,
+                'stages': [
+                    {'start_episode': 1, 'tile_density': 0.5},
+                    {'start_episode': 801, 'tile_density': 0.8},
+                    {'start_episode': 1601, 'tile_density': 1.1}
+                ],
+                'adaptive': True,
+                'advance_win_rate': 0.9,
+                'window': 50
             }
         }
     }

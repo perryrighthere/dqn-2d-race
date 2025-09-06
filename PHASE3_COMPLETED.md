@@ -180,7 +180,7 @@ python train_dqn.py --episodes 1500 --render --save-dir custom_models
 - **Initial Episodes**: Random exploration, low win rate
 - **Learning Phase**: Gradual improvement, epsilon decay
 - **Convergence**: 60%+ win rate against baseline agent
-- **Time Improvement**: Potential 5-15 second improvement over 180s baseline
+- **Time Improvement**: Potential 5-15 second improvement over ~18.8s baseline
 
 ## 📊 Technical Specifications
 
@@ -202,7 +202,7 @@ python train_dqn.py --episodes 1500 --render --save-dir custom_models
 ### Performance Metrics
 - **Win Rate**: Percentage of races won against baseline
 - **Average Reward**: Mean episode reward over training
-- **Race Time**: Lap completion time vs 180s baseline
+- **Race Time**: Lap completion time vs ~18.8s baseline
 - **Exploration**: Epsilon decay tracking
 
 ## 🔄 Development Commands
@@ -244,4 +244,4 @@ python -m py_compile src/agents/*.py train_dqn.py
 **DQN Framework**: Complete Double DQN with racing-optimized features  
 **Training System**: Ready for competitive training against baseline agent
 
-The DQN agent framework is fully implemented and tested. The agent can now begin training to learn optimal racing strategies through reinforcement learning, competing directly against the established baseline agent benchmark of 180 seconds per race.
+The DQN agent framework is fully implemented and tested. The agent can now begin training to learn optimal racing strategies through reinforcement learning, competing directly against the established baseline agent benchmark of ~18.8 seconds per race.

@@ -17,10 +17,10 @@
 ### 3. Baseline Performance Benchmarks
 
 #### Race Completion Metrics
-- **Mean Completion Time**: 180.00 seconds (exactly 3 minutes)
-- **Standard Deviation**: 0.00 seconds (perfect consistency)
+- **Mean Completion Time**: 18.83 seconds (3 laps)
+- **Standard Deviation**: 0.09 seconds (high consistency)
 - **Success Rate**: 100.0% (30/30 successful race completions)
-- **Coefficient of Variation**: 0.000 (maximum consistency)
+- **Coefficient of Variation**: 0.005
 
 #### Lane Discipline Validation
 - **Lane Violations**: 0 total across all trials
@@ -48,14 +48,14 @@
 ## 🎯 Key Achievements
 
 ### ✅ Deterministic Baseline Agent
-- **Predictable Performance**: Exactly 180 seconds per 3-lap race
+- **Predictable Performance**: ≈18.8 seconds per 3-lap race
 - **No Environmental Influence**: Immune to special tiles and external factors
 - **Stable Reference Point**: Provides consistent benchmark for DQN comparison
 
 ### ✅ Performance Baseline Established
-- **Reference Time**: 60.00 seconds per lap (180 seconds total)
+- **Reference Time**: ≈6.28 seconds per lap (≈18.83 seconds total)
 - **Angular Speed**: Constant `BASE_SPEED / TRACK_RADIUS` radians/frame
-- **Track Coverage**: Complete 3-lap races with perfect consistency
+- **Track Coverage**: Complete 3-lap races with high consistency
 
 ### ✅ Validation Framework
 - **Automated Testing**: Systematic benchmark validation system
@@ -79,8 +79,8 @@ python -m py_compile src/environment/*.py config/*.py
 ### Validated Performance Characteristics
 - ✅ **100% Success Rate**: All races completed successfully
 - ✅ **Zero Lane Violations**: Perfect middle lane discipline
-- ✅ **Perfect Consistency**: Identical performance across all trials
-- ✅ **Deterministic Timing**: Exactly 180.00 seconds every race
+- ✅ **High Consistency**: Very small timing variance across trials
+- ✅ **Consistent Timing**: ≈18.83 ± 0.09 seconds per race
 - ✅ **Angular Speed Stability**: No speed variations detected
 
 ## 🚀 Phase 2 Completion Criteria Met
@@ -88,30 +88,30 @@ python -m py_compile src/environment/*.py config/*.py
 ### Phase 2 Requirements ✅
 1. **✅ Implement deterministic baseline agent** - BaselineCar class implemented
 2. **✅ Ensure consistent performance in middle lane** - 0 lane violations confirmed
-3. **✅ Establish baseline completion time benchmarks** - 180.00 second benchmark established
+3. **✅ Establish baseline completion time benchmarks** - ≈18.83 second benchmark established
 
 ### Technical Specifications
 - **Agent Type**: Deterministic BaselineCar
 - **Lane Assignment**: Middle lane only (ID: 1 for 3-lane track)
 - **Speed Profile**: Constant angular velocity
-- **Race Duration**: 180.00 ± 0.00 seconds
-- **Lap Performance**: 60.00 seconds per lap
+- **Race Duration**: 18.83 ± 0.09 seconds
+- **Lap Performance**: ≈6.28 seconds per lap
 - **Environmental Immunity**: No special tile effects
 
 ### Quality Metrics
 - **Reliability**: 100% race completion rate
-- **Consistency**: 0.000 coefficient of variation
+- **Consistency**: 0.005 coefficient of variation
 - **Discipline**: 0 lane violations across all trials
-- **Predictability**: Identical results in all conditions
+- **Predictability**: Highly similar results across conditions
 
 ## 📊 Statistical Summary
 
 ### Performance Distribution
-- **Mean**: 180.00 seconds
-- **Median**: 180.00 seconds  
-- **Range**: 180.00 - 180.00 seconds
-- **Standard Deviation**: 0.00 seconds
-- **Interquartile Range**: 0.00 seconds
+- **Mean**: 18.83 seconds
+- **Median**: 18.85 seconds  
+- **Range**: 18.38 - 18.85 seconds
+- **Standard Deviation**: 0.09 seconds
+- **Interquartile Range**: small (high consistency)
 
 ### Validation Metrics
 - **Lane Discipline Score**: 100% (Perfect)
@@ -123,13 +123,13 @@ python -m py_compile src/environment/*.py config/*.py
 
 ### Baseline Reference Established
 The baseline agent now provides a **reliable, consistent benchmark** with:
-- **Fixed completion time**: 180.00 seconds per race
+- **Average completion time**: ≈18.83 seconds per race
 - **Predictable behavior**: Always middle lane, constant speed
 - **Quality assurance**: Comprehensive testing and validation completed
 
 ### DQN Training Target
 Phase 3 DQN agent development can now use:
-- **Performance Target**: Beat 180.00 second baseline time
+- **Performance Target**: Beat ≈18.83 second baseline time
 - **Comparison Metric**: Direct lap-to-lap and total race time comparison
 - **Training Environment**: Validated, stable environment ready for RL training
 
@@ -163,4 +163,4 @@ python -c "from src.environment.race_environment import RaceEnvironment; env = R
 
 **Phase 2 Status**: ✅ **COMPLETE**  
 **Next Phase**: Phase 3 - DQN Agent Framework Development  
-**Baseline Benchmark**: 180.00 seconds (3 laps, middle lane, constant speed)
+**Baseline Benchmark**: ≈18.83 seconds (3 laps, middle lane, constant speed)

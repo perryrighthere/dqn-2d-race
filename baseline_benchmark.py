@@ -167,7 +167,9 @@ class BaselineBenchmark:
                 'max': max(results['average_lap_times'])
             }
             
-        analysis['lane_violation_rate'] = results['lane_violations_total'] / (results['successful_races'] * 180)  # violations per second
+        # Violations per second across all successful races
+        total_time = sum(results.get('completion_times', [])) if results.get('completion_times') else 0.0
+        analysis['lane_violation_rate'] = (results['lane_violations_total'] / total_time) if total_time > 0 else 0.0
         analysis['success_rate'] = results['successful_races'] / self.num_trials
         
         if len(results['speed_consistency']) > 0:

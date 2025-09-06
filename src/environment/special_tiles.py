@@ -231,12 +231,12 @@ class TileManager:
         self.tiles.clear()
         self.tiles_by_lane.clear()
         
-    def reset(self, seed: int = None):
+    def reset(self, seed: int = None, density: float = None):
         """Reset tile manager and regenerate tiles"""
         if seed is not None:
-            self.generate_tiles(seed=seed)
+            self.generate_tiles(density=density if density is not None else TILE_DENSITY, seed=seed)
         else:
-            self.generate_tiles()
+            self.generate_tiles(density=density if density is not None else TILE_DENSITY)
             
     def get_tile_count(self) -> Dict[str, int]:
         """Get count of tiles by type"""

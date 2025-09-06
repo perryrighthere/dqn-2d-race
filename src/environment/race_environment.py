@@ -16,11 +16,12 @@ class RaceEnvironment(gym.Env):
     Circular 2D Car Racing Environment for RL Agent vs Baseline Agent
     """
     
-    def __init__(self, render_mode: str = None):
+    def __init__(self, render_mode: str = None, tile_density: float = None):
         super().__init__()
         
         # Environment configuration
         self.render_mode = render_mode
+        self.tile_density = tile_density if tile_density is not None else TILE_DENSITY
         
         # Initialize components
         self.track = Track()
@@ -58,10 +59,14 @@ class RaceEnvironment(gym.Env):
         
         if seed is not None:
             np.random.seed(seed)
-            
+        
+        # Allow overriding tile density via options
+        if options and 'tile_density' in options and options['tile_density'] is not None:
+            self.tile_density = float(options['tile_density'])
+        
         # Reset track and generate new tiles
-        self.track.reset()
-        self.tile_manager.reset(seed=seed)
+        self.track.reset(density=self.tile_density)
+        self.tile_manager.reset(seed=seed, density=self.tile_density)
         
         # Reset cars to starting positions (angle 0, different lanes)
         self.baseline_car.reset(angle=0, lane=self.track.middle_lane_id)
@@ -224,7 +229,8 @@ class RaceEnvironment(gym.Env):
             'rl_car_angular_speed': self.rl_car.angular_velocity,
             'episode': self.episode,
             'race_finished': self.race_finished,
-            'winner': self.winner
+            'winner': self.winner,
+            'tile_density': self.tile_density
         }
         
     def render(self):

@@ -113,6 +113,20 @@ python train_dqn.py --config deep --episodes 2000
 - Best chance for high win rate
 - More thorough learning
 
+### Phase 4 Part 3: Advanced Training (Multi‑Seed + Curriculum)
+
+#### Run Advanced Pipeline
+```bash
+# Full run (multi-seed, curriculum, deep training)
+python phase4_part3.py --episodes 2500 --seeds 101,202,303,404,505
+
+# Quick sanity check
+python phase4_part3.py --quick --episodes 300 --seeds 101,202
+```
+- Saves models under `phase4_part3/seed_<seed>/`
+- Logs and plots under `phase4_part3/logs/`
+- Summary written to `phase4_part3/PHASE4_PART3_RESULTS.md`
+
 #### Custom Training
 ```bash
 # Custom configuration
@@ -186,10 +200,10 @@ Lane 0: 23 tiles, Lane 2: 18 tiles
 - **Distribution**: 60% acceleration, 40% deceleration tiles
 
 ### Performance Targets
-- **Baseline Performance**: 180.00 seconds (consistent)
+- **Baseline Performance**: ~18.8 seconds (average)
 - **Target Win Rate**: 60%+ wins against baseline
-- **Target Improvement**: 5-15 second faster than baseline
-- **Enhanced Tiles**: Expect 24% higher rewards (~552 vs ~448) due to more tile interactions
+- **Target Improvement**: 5-15 seconds faster than baseline
+- **Enhanced Tiles**: Expect higher rewards due to more tile interactions
 
 ---
 
@@ -327,7 +341,7 @@ python -m py_compile src/environment/*.py src/agents/*.py config/*.py
 
 ### Success Metrics
 - **Win Rate**: >60% against baseline agent
-- **Time Improvement**: 5-15 seconds faster than 180s baseline
+- **Time Improvement**: 5-15 seconds faster than ~18.8s baseline
 - **Consistency**: Stable performance across multiple races
 - **Strategy**: Evidence of lane-changing and tile utilization
 - **Tile Interactions**: Higher reward scores indicating strategic tile usage
@@ -437,7 +451,7 @@ hyperopt_results/
 ```
 🧮 2.1 LEARNING RATE OPTIMIZATION
 📊 Experiment 1/4: Learning Rate = 0.0001
-   ✅ Success: Win Rate: 50.0%, Time Improvement: +161.59s, Duration: 72s
+   ✅ Success: Win Rate: 50.0%, Time Improvement: +8.0s, Duration: 72s
 ```
 - **Win Rate**: Percentage of races won against baseline
 - **Time Improvement**: Seconds faster than baseline (positive = faster)

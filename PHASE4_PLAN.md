@@ -2,7 +2,7 @@
 
 ## Project Status Overview
 - **Phase 1**: ✅ Core game environment (circular track, car physics, special tiles)
-- **Phase 2**: ✅ Baseline agent benchmarks (180.00s consistent performance)
+- **Phase 2**: ✅ Baseline agent benchmarks (~18.8s average performance)
 - **Phase 3**: ✅ DQN framework (Double DQN, dueling architecture, experience replay)
 - **Phase 4**: 🎯 Training & Competition (Current Phase)
 
@@ -39,7 +39,7 @@
   - Q-value convergence patterns
 
 #### 1.3 Initial Performance Assessment
-- **Benchmark Comparison**: Compare trained DQN vs 180.00s baseline
+- **Benchmark Comparison**: Compare trained DQN vs ~18.8s baseline
 - **Learning Curve Analysis**: Evaluate training progression and convergence
 - **Strategy Emergence**: Document early strategic behaviors (lane changes, tile usage)
 
@@ -144,7 +144,7 @@
 #### 5.2 Performance Benchmark Documentation
 - **Final DQN Performance**: Document best achieved metrics
   - Target: 60%+ win rate vs baseline
-  - Target: 5-15 second improvement over 180s baseline
+  - Target: 5-15 second improvement over ~18.8s baseline
 - **Comparative Analysis**: DQN vs baseline performance breakdown
 - **Statistical Significance**: Formal testing of performance improvements
 
@@ -188,7 +188,7 @@
 
 ### Performance Targets
 - **Win Rate**: Achieve 60%+ win rate against baseline agent
-- **Time Improvement**: Average 5-15 second improvement over 180s baseline
+- **Time Improvement**: Average 5-15 second improvement over ~18.8s baseline
 - **Training Convergence**: Stable performance within 2000 episodes
 - **Strategy Development**: Clear evidence of learned racing strategies
 
