@@ -1,0 +1,2318 @@
+{
+  "summary": {
+    "model_path": "models/dqn_racing_final.pth",
+    "races": 120,
+    "tile_density": 0.8,
+    "baseline_mean_time": 18.834444444444657,
+    "wins": {
+      "RL": 120,
+      "Baseline": 0
+    },
+    "win_rate": 1.0,
+    "win_rate_ci_95": [
+      0.9689797289440706,
+      1.0
+    ],
+    "rl_avg_time": 11.168611111111245,
+    "time_improvement": {
+      "mean": 7.665833333333411,
+      "median": 7.742777777777859,
+      "std": 1.2550257200733366,
+      "ci95": [
+        7.441280740269856,
+        7.890385926396966
+      ]
+    },
+    "tile_hits": {
+      "acceleration": 1568,
+      "deceleration": 1541
+    },
+    "lane_usage_total": {
+      "0": 27765,
+      "1": 34521,
+      "2": 18128
+    },
+    "occupancy_bins": {
+      "lanes": 3,
+      "angle_bins": 36,
+      "matrix": [
+        [
+          978,
+          988,
+          1026,
+          1049,
+          1063,
+          1083,
+          1078,
+          1170,
+          1238,
+          1210,
+          1265,
+          1311,
+          1439,
+          1202,
+          895,
+          831,
+          560,
+          479,
+          474,
+          527,
+          543,
+          434,
+          272,
+          473,
+          700,
+          789,
+          711,
+          470,
+          609,
+          626,
+          688,
+          537,
+          362,
+          223,
+          253,
+          209
+        ],
+        [
+          526,
+          653,
+          791,
+          952,
+          964,
+          890,
+          912,
+          850,
+          841,
+          838,
+          747,
+          670,
+          601,
+          838,
+          1145,
+          1223,
+          1179,
+          1255,
+          1181,
+          1078,
+          1119,
+          1409,
+          1516,
+          1058,
+          908,
+          916,
+          1039,
+          1125,
+          940,
+          1036,
+          979,
+          984,
+          1008,
+          865,
+          765,
+          720
+        ],
+        [
+          802,
+          575,
+          449,
+          272,
+          184,
+          220,
+          246,
+          334,
+          370,
+          228,
+          120,
+          100,
+          155,
+          205,
+          292,
+          375,
+          378,
+          383,
+          561,
+          668,
+          785,
+          583,
+          508,
+          704,
+          563,
+          443,
+          438,
+          575,
+          628,
+          483,
+          598,
+          720,
+          818,
+          1125,
+          1164,
+          1076
+        ]
+      ]
+    }
+  },
+  "per_race": [
+    {
+      "winner": "RL",
+      "race_time": 11.533333333333486,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 15,
+      "rl_decel_hits": 15,
+      "rl_lane_usage": {
+        "0": 255,
+        "1": 251,
+        "2": 186
+      },
+      "rl_lap_times": [
+        3.6999999999999917,
+        3.8166666666666536,
+        4.016666666666841
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 13.350000000000243,
+      "rl_laps": 3,
+      "baseline_laps": 2,
+      "rl_accel_hits": 21,
+      "rl_decel_hits": 22,
+      "rl_lane_usage": {
+        "0": 201,
+        "1": 328,
+        "2": 272
+      },
+      "rl_lap_times": [
+        4.116666666666657,
+        4.833333333333367,
+        4.400000000000219
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.633333333333491,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 15,
+      "rl_decel_hits": 15,
+      "rl_lane_usage": {
+        "0": 212,
+        "1": 327,
+        "2": 159
+      },
+      "rl_lap_times": [
+        3.383333333333326,
+        4.283333333333319,
+        3.966666666666846
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.283333333333474,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 19,
+      "rl_decel_hits": 19,
+      "rl_lane_usage": {
+        "0": 352,
+        "1": 209,
+        "2": 116
+      },
+      "rl_lap_times": [
+        4.166666666666657,
+        3.3666666666666547,
+        3.7500000000001616
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 12.333333333333526,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 20,
+      "rl_decel_hits": 20,
+      "rl_lane_usage": {
+        "0": 252,
+        "1": 277,
+        "2": 211
+      },
+      "rl_lap_times": [
+        4.416666666666656,
+        3.4999999999999876,
+        4.416666666666882
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 12.216666666666853,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 17,
+      "rl_decel_hits": 16,
+      "rl_lane_usage": {
+        "0": 294,
+        "1": 264,
+        "2": 175
+      },
+      "rl_lap_times": [
+        4.4499999999999895,
+        3.9166666666666723,
+        3.8500000000001915
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 12.850000000000218,
+      "rl_laps": 3,
+      "baseline_laps": 2,
+      "rl_accel_hits": 17,
+      "rl_decel_hits": 17,
+      "rl_lane_usage": {
+        "0": 257,
+        "1": 355,
+        "2": 159
+      },
+      "rl_lap_times": [
+        4.733333333333322,
+        4.266666666666705,
+        3.8500000000001915
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.933333333333456,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 13,
+      "rl_decel_hits": 13,
+      "rl_lane_usage": {
+        "0": 173,
+        "1": 347,
+        "2": 136
+      },
+      "rl_lap_times": [
+        3.9666666666666575,
+        3.7833333333333203,
+        3.1833333333334783
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.483333333333483,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 16,
+      "rl_decel_hits": 15,
+      "rl_lane_usage": {
+        "0": 264,
+        "1": 281,
+        "2": 144
+      },
+      "rl_lap_times": [
+        3.8333333333333246,
+        3.749999999999987,
+        3.9000000000001718
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.200000000000136,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 16,
+      "rl_decel_hits": 15,
+      "rl_lane_usage": {
+        "0": 175,
+        "1": 240,
+        "2": 257
+      },
+      "rl_lap_times": [
+        4.083333333333324,
+        3.2999999999999883,
+        3.8166666666668236
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 12.183333333333518,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 9,
+      "rl_decel_hits": 10,
+      "rl_lane_usage": {
+        "0": 258,
+        "1": 336,
+        "2": 137
+      },
+      "rl_lap_times": [
+        3.6999999999999917,
+        4.133333333333319,
+        4.3500000000002075
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 12.10000000000018,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 16,
+      "rl_decel_hits": 16,
+      "rl_lane_usage": {
+        "0": 290,
+        "1": 327,
+        "2": 109
+      },
+      "rl_lap_times": [
+        3.3666666666666596,
+        4.066666666666652,
+        4.666666666666869
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.533333333333436,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 11,
+      "rl_decel_hits": 11,
+      "rl_lane_usage": {
+        "0": 216,
+        "1": 275,
+        "2": 141
+      },
+      "rl_lap_times": [
+        3.2499999999999933,
+        3.6833333333333207,
+        3.600000000000122
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.366666666666761,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 12,
+      "rl_decel_hits": 11,
+      "rl_lane_usage": {
+        "0": 178,
+        "1": 245,
+        "2": 199
+      },
+      "rl_lap_times": [
+        3.7499999999999916,
+        3.2166666666666557,
+        3.400000000000114
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 12.783333333333548,
+      "rl_laps": 3,
+      "baseline_laps": 2,
+      "rl_accel_hits": 12,
+      "rl_decel_hits": 12,
+      "rl_lane_usage": {
+        "0": 214,
+        "1": 362,
+        "2": 191
+      },
+      "rl_lap_times": [
+        4.216666666666657,
+        3.91666666666666,
+        4.650000000000231
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.466666666666766,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 16,
+      "rl_decel_hits": 15,
+      "rl_lane_usage": {
+        "0": 150,
+        "1": 299,
+        "2": 179
+      },
+      "rl_lap_times": [
+        3.349999999999993,
+        3.666666666666654,
+        3.450000000000119
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.566666666666771,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 11,
+      "rl_decel_hits": 11,
+      "rl_lane_usage": {
+        "0": 190,
+        "1": 255,
+        "2": 189
+      },
+      "rl_lap_times": [
+        3.21666666666666,
+        3.466666666666655,
+        3.8833333333334563
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 9.883333333333404,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 15,
+      "rl_decel_hits": 14,
+      "rl_lane_usage": {
+        "0": 232,
+        "1": 260,
+        "2": 101
+      },
+      "rl_lap_times": [
+        2.8999999999999946,
+        3.7333333333333205,
+        3.250000000000089
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 8.283333333333324,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 6,
+      "rl_decel_hits": 7,
+      "rl_lane_usage": {
+        "0": 169,
+        "1": 224,
+        "2": 104
+      },
+      "rl_lap_times": [
+        2.7333333333333285,
+        2.8499999999999903,
+        2.7000000000000055
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.833333333333501,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 17,
+      "rl_decel_hits": 18,
+      "rl_lane_usage": {
+        "0": 284,
+        "1": 301,
+        "2": 125
+      },
+      "rl_lap_times": [
+        4.29999999999999,
+        3.2999999999999883,
+        4.233333333333523
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 12.116666666666848,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 16,
+      "rl_decel_hits": 16,
+      "rl_lane_usage": {
+        "0": 263,
+        "1": 329,
+        "2": 135
+      },
+      "rl_lap_times": [
+        4.133333333333324,
+        3.8499999999999863,
+        4.133333333333538
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 9.716666666666729,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 13,
+      "rl_decel_hits": 12,
+      "rl_lane_usage": {
+        "0": 177,
+        "1": 314,
+        "2": 92
+      },
+      "rl_lap_times": [
+        2.9499999999999944,
+        3.3833333333333218,
+        3.383333333333413
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 9.683333333333394,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 13,
+      "rl_decel_hits": 12,
+      "rl_lane_usage": {
+        "0": 233,
+        "1": 288,
+        "2": 60
+      },
+      "rl_lap_times": [
+        3.0666666666666607,
+        3.083333333333323,
+        3.5333333333334105
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.683333333333444,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 10,
+      "rl_decel_hits": 9,
+      "rl_lane_usage": {
+        "0": 227,
+        "1": 222,
+        "2": 192
+      },
+      "rl_lap_times": [
+        4.39999999999999,
+        3.5499999999999874,
+        2.7333333333334666
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.933333333333506,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 11,
+      "rl_decel_hits": 10,
+      "rl_lane_usage": {
+        "0": 293,
+        "1": 292,
+        "2": 131
+      },
+      "rl_lap_times": [
+        3.866666666666658,
+        4.233333333333324,
+        3.833333333333524
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.283333333333424,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 17,
+      "rl_decel_hits": 16,
+      "rl_lane_usage": {
+        "0": 114,
+        "1": 299,
+        "2": 204
+      },
+      "rl_lap_times": [
+        3.4166666666666594,
+        3.1833333333333225,
+        3.683333333333442
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.800000000000116,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 12,
+      "rl_decel_hits": 13,
+      "rl_lane_usage": {
+        "0": 228,
+        "1": 291,
+        "2": 129
+      },
+      "rl_lap_times": [
+        3.2333333333333267,
+        3.583333333333321,
+        3.9833333333334684
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 9.783333333333399,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 8,
+      "rl_decel_hits": 8,
+      "rl_lane_usage": {
+        "0": 252,
+        "1": 238,
+        "2": 97
+      },
+      "rl_lap_times": [
+        3.5333333333333257,
+        3.1833333333333225,
+        3.066666666666751
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 12.03333333333351,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 15,
+      "rl_decel_hits": 15,
+      "rl_lane_usage": {
+        "0": 238,
+        "1": 335,
+        "2": 149
+      },
+      "rl_lap_times": [
+        3.9166666666666576,
+        3.7666666666666537,
+        4.3500000000001995
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.966666666666791,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 13,
+      "rl_decel_hits": 13,
+      "rl_lane_usage": {
+        "0": 246,
+        "1": 233,
+        "2": 179
+      },
+      "rl_lap_times": [
+        3.816666666666658,
+        3.2999999999999887,
+        3.8500000000001444
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 12.96666666666689,
+      "rl_laps": 3,
+      "baseline_laps": 2,
+      "rl_accel_hits": 17,
+      "rl_decel_hits": 18,
+      "rl_lane_usage": {
+        "0": 119,
+        "1": 373,
+        "2": 286
+      },
+      "rl_lap_times": [
+        3.6999999999999917,
+        4.73333333333334,
+        4.533333333333559
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.633333333333441,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 11,
+      "rl_decel_hits": 10,
+      "rl_lane_usage": {
+        "0": 247,
+        "1": 279,
+        "2": 112
+      },
+      "rl_lap_times": [
+        3.599999999999992,
+        3.1333333333333226,
+        3.9000000000001265
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.266666666666806,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 14,
+      "rl_decel_hits": 13,
+      "rl_lane_usage": {
+        "0": 218,
+        "1": 379,
+        "2": 79
+      },
+      "rl_lap_times": [
+        3.8833333333333244,
+        3.5999999999999877,
+        3.783333333333494
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.816666666666784,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 11,
+      "rl_decel_hits": 11,
+      "rl_lane_usage": {
+        "0": 225,
+        "1": 237,
+        "2": 187
+      },
+      "rl_lap_times": [
+        3.099999999999994,
+        3.666666666666654,
+        4.050000000000136
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 9.516666666666719,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 9,
+      "rl_decel_hits": 9,
+      "rl_lane_usage": {
+        "0": 203,
+        "1": 255,
+        "2": 113
+      },
+      "rl_lap_times": [
+        3.1166666666666605,
+        3.449999999999988,
+        2.9500000000000703
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 9.883333333333404,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 7,
+      "rl_decel_hits": 7,
+      "rl_lane_usage": {
+        "0": 271,
+        "1": 223,
+        "2": 99
+      },
+      "rl_lap_times": [
+        3.6999999999999917,
+        2.9666666666666566,
+        3.2166666666667556
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.433333333333431,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 10,
+      "rl_decel_hits": 10,
+      "rl_lane_usage": {
+        "0": 303,
+        "1": 292,
+        "2": 31
+      },
+      "rl_lap_times": [
+        3.2499999999999933,
+        3.3499999999999885,
+        3.8333333333334494
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.483333333333434,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 11,
+      "rl_decel_hits": 11,
+      "rl_lane_usage": {
+        "0": 198,
+        "1": 228,
+        "2": 203
+      },
+      "rl_lap_times": [
+        4.033333333333324,
+        3.816666666666653,
+        2.6333333333334563
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.883333333333503,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 16,
+      "rl_decel_hits": 16,
+      "rl_lane_usage": {
+        "0": 143,
+        "1": 358,
+        "2": 212
+      },
+      "rl_lap_times": [
+        3.8833333333333244,
+        4.183333333333323,
+        3.8166666666668565
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.683333333333444,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 13,
+      "rl_decel_hits": 12,
+      "rl_lane_usage": {
+        "0": 199,
+        "1": 300,
+        "2": 142
+      },
+      "rl_lap_times": [
+        3.3166666666666598,
+        3.583333333333321,
+        3.783333333333463
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 13.216666666666903,
+      "rl_laps": 3,
+      "baseline_laps": 2,
+      "rl_accel_hits": 11,
+      "rl_decel_hits": 12,
+      "rl_lane_usage": {
+        "0": 261,
+        "1": 377,
+        "2": 155
+      },
+      "rl_lap_times": [
+        3.8333333333333246,
+        4.833333333333352,
+        4.550000000000226
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 13.03333333333356,
+      "rl_laps": 3,
+      "baseline_laps": 2,
+      "rl_accel_hits": 10,
+      "rl_decel_hits": 10,
+      "rl_lane_usage": {
+        "0": 282,
+        "1": 372,
+        "2": 128
+      },
+      "rl_lap_times": [
+        4.24999999999999,
+        4.233333333333344,
+        4.550000000000226
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.683333333333493,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 14,
+      "rl_decel_hits": 14,
+      "rl_lane_usage": {
+        "0": 198,
+        "1": 335,
+        "2": 168
+      },
+      "rl_lap_times": [
+        4.19999999999999,
+        3.73333333333332,
+        3.750000000000183
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 8.51666666666667,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 10,
+      "rl_decel_hits": 10,
+      "rl_lane_usage": {
+        "0": 226,
+        "1": 182,
+        "2": 103
+      },
+      "rl_lap_times": [
+        3.2833333333333266,
+        2.6333333333333244,
+        2.6000000000000183
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.96666666666684,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 11,
+      "rl_decel_hits": 11,
+      "rl_lane_usage": {
+        "0": 167,
+        "1": 299,
+        "2": 252
+      },
+      "rl_lap_times": [
+        3.6666666666666585,
+        4.066666666666652,
+        4.23333333333353
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.516666666666818,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 15,
+      "rl_decel_hits": 15,
+      "rl_lane_usage": {
+        "0": 326,
+        "1": 264,
+        "2": 101
+      },
+      "rl_lap_times": [
+        4.24999999999999,
+        3.9499999999999966,
+        3.3166666666668316
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 9.700000000000061,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 14,
+      "rl_decel_hits": 14,
+      "rl_lane_usage": {
+        "0": 270,
+        "1": 216,
+        "2": 96
+      },
+      "rl_lap_times": [
+        3.0833333333333273,
+        3.3999999999999884,
+        3.216666666666746
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 8.399999999999997,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 8,
+      "rl_decel_hits": 7,
+      "rl_lane_usage": {
+        "0": 97,
+        "1": 238,
+        "2": 169
+      },
+      "rl_lap_times": [
+        2.833333333333328,
+        2.4999999999999916,
+        3.066666666666677
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 12.683333333333543,
+      "rl_laps": 3,
+      "baseline_laps": 2,
+      "rl_accel_hits": 15,
+      "rl_decel_hits": 15,
+      "rl_lane_usage": {
+        "0": 214,
+        "1": 305,
+        "2": 242
+      },
+      "rl_lap_times": [
+        4.166666666666657,
+        4.400000000000015,
+        4.116666666666871
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 12.450000000000198,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 9,
+      "rl_decel_hits": 9,
+      "rl_lane_usage": {
+        "0": 229,
+        "1": 366,
+        "2": 152
+      },
+      "rl_lap_times": [
+        3.899999999999991,
+        3.716666666666654,
+        4.833333333333553
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.950000000000124,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 13,
+      "rl_decel_hits": 12,
+      "rl_lane_usage": {
+        "0": 258,
+        "1": 311,
+        "2": 88
+      },
+      "rl_lap_times": [
+        4.0666666666666575,
+        3.2166666666666552,
+        3.666666666666811
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.133333333333416,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 12,
+      "rl_decel_hits": 12,
+      "rl_lane_usage": {
+        "0": 259,
+        "1": 226,
+        "2": 123
+      },
+      "rl_lap_times": [
+        3.6666666666666585,
+        3.4333333333333216,
+        3.0333333333334362
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 13.183333333333568,
+      "rl_laps": 3,
+      "baseline_laps": 2,
+      "rl_accel_hits": 15,
+      "rl_decel_hits": 14,
+      "rl_lane_usage": {
+        "0": 272,
+        "1": 340,
+        "2": 179
+      },
+      "rl_lap_times": [
+        4.899999999999988,
+        4.316666666666716,
+        3.966666666666864
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.233333333333471,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 14,
+      "rl_decel_hits": 14,
+      "rl_lane_usage": {
+        "0": 169,
+        "1": 366,
+        "2": 139
+      },
+      "rl_lap_times": [
+        3.9666666666666575,
+        3.7833333333333203,
+        3.4833333333334933
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 9.233333333333372,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 8,
+      "rl_decel_hits": 7,
+      "rl_lane_usage": {
+        "0": 130,
+        "1": 288,
+        "2": 136
+      },
+      "rl_lap_times": [
+        3.016666666666661,
+        3.5333333333333212,
+        2.6833333333333895
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.033333333333411,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 9,
+      "rl_decel_hits": 10,
+      "rl_lane_usage": {
+        "0": 223,
+        "1": 242,
+        "2": 137
+      },
+      "rl_lap_times": [
+        3.566666666666659,
+        3.249999999999989,
+        3.2166666666667636
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.183333333333469,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 13,
+      "rl_decel_hits": 13,
+      "rl_lane_usage": {
+        "0": 156,
+        "1": 363,
+        "2": 152
+      },
+      "rl_lap_times": [
+        3.6333333333333253,
+        3.8499999999999868,
+        3.7000000000001565
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 9.450000000000049,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 13,
+      "rl_decel_hits": 14,
+      "rl_lane_usage": {
+        "0": 175,
+        "1": 235,
+        "2": 157
+      },
+      "rl_lap_times": [
+        3.349999999999993,
+        3.2166666666666557,
+        2.8833333333334004
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.300000000000091,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 15,
+      "rl_decel_hits": 14,
+      "rl_lane_usage": {
+        "0": 214,
+        "1": 249,
+        "2": 155
+      },
+      "rl_lap_times": [
+        3.949999999999991,
+        2.7499999999999907,
+        3.60000000000011
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 12.016666666666843,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 15,
+      "rl_decel_hits": 14,
+      "rl_lane_usage": {
+        "0": 283,
+        "1": 313,
+        "2": 125
+      },
+      "rl_lap_times": [
+        4.383333333333323,
+        3.516666666666654,
+        4.116666666666866
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 12.733333333333546,
+      "rl_laps": 3,
+      "baseline_laps": 2,
+      "rl_accel_hits": 19,
+      "rl_decel_hits": 19,
+      "rl_lane_usage": {
+        "0": 358,
+        "1": 313,
+        "2": 93
+      },
+      "rl_lap_times": [
+        4.133333333333324,
+        4.28333333333334,
+        4.316666666666881
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.066666666666796,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 7,
+      "rl_decel_hits": 8,
+      "rl_lane_usage": {
+        "0": 237,
+        "1": 274,
+        "2": 153
+      },
+      "rl_lap_times": [
+        4.149999999999991,
+        3.9166666666666563,
+        3.000000000000149
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.516666666666769,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 6,
+      "rl_decel_hits": 6,
+      "rl_lane_usage": {
+        "0": 135,
+        "1": 202,
+        "2": 294
+      },
+      "rl_lap_times": [
+        3.349999999999993,
+        3.6833333333333207,
+        3.483333333333455
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.816666666666833,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 17,
+      "rl_decel_hits": 17,
+      "rl_lane_usage": {
+        "0": 272,
+        "1": 262,
+        "2": 175
+      },
+      "rl_lap_times": [
+        3.7999999999999914,
+        4.0499999999999865,
+        3.966666666666856
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 8.433333333333332,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 11,
+      "rl_decel_hits": 10,
+      "rl_lane_usage": {
+        "0": 154,
+        "1": 259,
+        "2": 93
+      },
+      "rl_lap_times": [
+        2.7333333333333285,
+        2.8499999999999903,
+        2.850000000000013
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.516666666666769,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 12,
+      "rl_decel_hits": 11,
+      "rl_lane_usage": {
+        "0": 185,
+        "1": 312,
+        "2": 134
+      },
+      "rl_lap_times": [
+        3.6999999999999917,
+        2.6833333333333242,
+        4.133333333333453
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 9.833333333333401,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 11,
+      "rl_decel_hits": 10,
+      "rl_lane_usage": {
+        "0": 180,
+        "1": 244,
+        "2": 166
+      },
+      "rl_lap_times": [
+        3.1499999999999937,
+        3.93333333333332,
+        2.750000000000088
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.383333333333479,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 10,
+      "rl_decel_hits": 10,
+      "rl_lane_usage": {
+        "0": 368,
+        "1": 253,
+        "2": 62
+      },
+      "rl_lap_times": [
+        3.599999999999992,
+        3.6833333333333207,
+        4.100000000000166
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 13.050000000000228,
+      "rl_laps": 3,
+      "baseline_laps": 2,
+      "rl_accel_hits": 12,
+      "rl_decel_hits": 14,
+      "rl_lane_usage": {
+        "0": 280,
+        "1": 345,
+        "2": 158
+      },
+      "rl_lap_times": [
+        4.533333333333323,
+        3.9833333333333467,
+        4.533333333333559
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.433333333333431,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 11,
+      "rl_decel_hits": 11,
+      "rl_lane_usage": {
+        "0": 263,
+        "1": 289,
+        "2": 74
+      },
+      "rl_lap_times": [
+        3.1499999999999937,
+        3.283333333333322,
+        4.0000000000001155
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.116666666666799,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 13,
+      "rl_decel_hits": 13,
+      "rl_lane_usage": {
+        "0": 271,
+        "1": 300,
+        "2": 96
+      },
+      "rl_lap_times": [
+        4.4499999999999895,
+        3.3333333333333215,
+        3.3333333333334876
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.200000000000086,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 7,
+      "rl_decel_hits": 6,
+      "rl_lane_usage": {
+        "0": 218,
+        "1": 259,
+        "2": 135
+      },
+      "rl_lap_times": [
+        2.8999999999999946,
+        4.299999999999985,
+        3.0000000000001066
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 9.733333333333396,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 14,
+      "rl_decel_hits": 13,
+      "rl_lane_usage": {
+        "0": 214,
+        "1": 274,
+        "2": 96
+      },
+      "rl_lap_times": [
+        3.4499999999999926,
+        2.9666666666666566,
+        3.3166666666667473
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.916666666666789,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 11,
+      "rl_decel_hits": 12,
+      "rl_lane_usage": {
+        "0": 160,
+        "1": 304,
+        "2": 191
+      },
+      "rl_lap_times": [
+        3.483333333333326,
+        4.449999999999985,
+        2.983333333333478
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.983333333333459,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 14,
+      "rl_decel_hits": 14,
+      "rl_lane_usage": {
+        "0": 232,
+        "1": 325,
+        "2": 102
+      },
+      "rl_lap_times": [
+        3.599999999999992,
+        3.8666666666666534,
+        3.516666666666813
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.566666666666821,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 11,
+      "rl_decel_hits": 11,
+      "rl_lane_usage": {
+        "0": 308,
+        "1": 293,
+        "2": 93
+      },
+      "rl_lap_times": [
+        3.9666666666666575,
+        3.83333333333332,
+        3.7666666666668434
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 8.800000000000017,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 13,
+      "rl_decel_hits": 12,
+      "rl_lane_usage": {
+        "0": 265,
+        "1": 218,
+        "2": 45
+      },
+      "rl_lap_times": [
+        3.26666666666666,
+        2.649999999999991,
+        2.8833333333333657
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.983333333333508,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 9,
+      "rl_decel_hits": 8,
+      "rl_lane_usage": {
+        "0": 189,
+        "1": 396,
+        "2": 134
+      },
+      "rl_lap_times": [
+        4.133333333333324,
+        4.166666666666668,
+        3.6833333333335165
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 9.366666666666712,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 10,
+      "rl_decel_hits": 9,
+      "rl_lane_usage": {
+        "0": 186,
+        "1": 226,
+        "2": 150
+      },
+      "rl_lap_times": [
+        4.049999999999991,
+        2.3499999999999917,
+        2.966666666666729
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 13.200000000000236,
+      "rl_laps": 3,
+      "baseline_laps": 2,
+      "rl_accel_hits": 12,
+      "rl_decel_hits": 13,
+      "rl_lane_usage": {
+        "0": 247,
+        "1": 340,
+        "2": 205
+      },
+      "rl_lap_times": [
+        4.8333333333333215,
+        4.050000000000033,
+        4.316666666666881
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.483333333333434,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 19,
+      "rl_decel_hits": 18,
+      "rl_lane_usage": {
+        "0": 262,
+        "1": 224,
+        "2": 143
+      },
+      "rl_lap_times": [
+        3.683333333333325,
+        3.416666666666655,
+        3.3833333333334537
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 12.5000000000002,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 15,
+      "rl_decel_hits": 14,
+      "rl_lane_usage": {
+        "0": 349,
+        "1": 281,
+        "2": 120
+      },
+      "rl_lap_times": [
+        3.9333333333333242,
+        4.7833333333333545,
+        3.7833333333335215
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 14.083333333333613,
+      "rl_laps": 3,
+      "baseline_laps": 2,
+      "rl_accel_hits": 15,
+      "rl_decel_hits": 14,
+      "rl_lane_usage": {
+        "0": 162,
+        "1": 309,
+        "2": 374
+      },
+      "rl_lap_times": [
+        4.949999999999988,
+        4.583333333333399,
+        4.550000000000226
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.100000000000131,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 12,
+      "rl_decel_hits": 11,
+      "rl_lane_usage": {
+        "0": 102,
+        "1": 272,
+        "2": 292
+      },
+      "rl_lap_times": [
+        3.0833333333333273,
+        3.7833333333333203,
+        4.2333333333334835
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.083333333333464,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 15,
+      "rl_decel_hits": 16,
+      "rl_lane_usage": {
+        "0": 269,
+        "1": 229,
+        "2": 167
+      },
+      "rl_lap_times": [
+        3.599999999999992,
+        3.8166666666666536,
+        3.666666666666818
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.666666666666776,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 13,
+      "rl_decel_hits": 12,
+      "rl_lane_usage": {
+        "0": 161,
+        "1": 295,
+        "2": 184
+      },
+      "rl_lap_times": [
+        4.049999999999991,
+        3.5499999999999874,
+        3.066666666666798
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.533333333333486,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 12,
+      "rl_decel_hits": 11,
+      "rl_lane_usage": {
+        "0": 148,
+        "1": 354,
+        "2": 190
+      },
+      "rl_lap_times": [
+        4.166666666666657,
+        3.566666666666654,
+        3.800000000000175
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 9.833333333333401,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 10,
+      "rl_decel_hits": 10,
+      "rl_lane_usage": {
+        "0": 183,
+        "1": 270,
+        "2": 137
+      },
+      "rl_lap_times": [
+        3.5833333333333255,
+        3.0999999999999894,
+        3.1500000000000865
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.816666666666833,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 13,
+      "rl_decel_hits": 12,
+      "rl_lane_usage": {
+        "0": 172,
+        "1": 340,
+        "2": 197
+      },
+      "rl_lap_times": [
+        3.733333333333325,
+        3.9499999999999864,
+        4.133333333333522
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.850000000000119,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 11,
+      "rl_decel_hits": 12,
+      "rl_lane_usage": {
+        "0": 250,
+        "1": 246,
+        "2": 155
+      },
+      "rl_lap_times": [
+        3.4166666666666594,
+        3.5999999999999877,
+        3.8333333333334716
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.283333333333474,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 12,
+      "rl_decel_hits": 12,
+      "rl_lane_usage": {
+        "0": 164,
+        "1": 310,
+        "2": 203
+      },
+      "rl_lap_times": [
+        3.2333333333333267,
+        3.88333333333332,
+        4.166666666666827
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.200000000000136,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 13,
+      "rl_decel_hits": 12,
+      "rl_lane_usage": {
+        "0": 249,
+        "1": 253,
+        "2": 170
+      },
+      "rl_lap_times": [
+        3.7833333333333248,
+        3.6166666666666543,
+        3.800000000000157
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.333333333333426,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 15,
+      "rl_decel_hits": 15,
+      "rl_lane_usage": {
+        "0": 203,
+        "1": 271,
+        "2": 146
+      },
+      "rl_lap_times": [
+        3.1999999999999935,
+        3.666666666666654,
+        3.4666666666667787
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 13.683333333333593,
+      "rl_laps": 3,
+      "baseline_laps": 2,
+      "rl_accel_hits": 16,
+      "rl_decel_hits": 16,
+      "rl_lane_usage": {
+        "0": 317,
+        "1": 296,
+        "2": 208
+      },
+      "rl_lap_times": [
+        4.549999999999989,
+        4.4500000000000375,
+        4.683333333333566
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.116666666666799,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 16,
+      "rl_decel_hits": 15,
+      "rl_lane_usage": {
+        "0": 187,
+        "1": 254,
+        "2": 226
+      },
+      "rl_lap_times": [
+        3.5333333333333257,
+        3.9999999999999862,
+        3.5833333333334867
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.900000000000121,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 13,
+      "rl_decel_hits": 13,
+      "rl_lane_usage": {
+        "0": 233,
+        "1": 273,
+        "2": 148
+      },
+      "rl_lap_times": [
+        3.983333333333324,
+        3.633333333333321,
+        3.283333333333476
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 9.400000000000047,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 9,
+      "rl_decel_hits": 9,
+      "rl_lane_usage": {
+        "0": 219,
+        "1": 244,
+        "2": 101
+      },
+      "rl_lap_times": [
+        2.666666666666662,
+        3.1333333333333226,
+        3.600000000000062
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.750000000000114,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 12,
+      "rl_decel_hits": 11,
+      "rl_lane_usage": {
+        "0": 244,
+        "1": 270,
+        "2": 131
+      },
+      "rl_lap_times": [
+        3.649999999999992,
+        3.6499999999999875,
+        3.4500000000001343
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.983333333333459,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 13,
+      "rl_decel_hits": 13,
+      "rl_lane_usage": {
+        "0": 338,
+        "1": 306,
+        "2": 15
+      },
+      "rl_lap_times": [
+        3.516666666666659,
+        3.83333333333332,
+        3.6333333333334794
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 12.083333333333513,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 13,
+      "rl_decel_hits": 12,
+      "rl_lane_usage": {
+        "0": 224,
+        "1": 317,
+        "2": 184
+      },
+      "rl_lap_times": [
+        4.699999999999989,
+        3.8500000000000156,
+        3.533333333333509
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 12.250000000000188,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 16,
+      "rl_decel_hits": 15,
+      "rl_lane_usage": {
+        "0": 207,
+        "1": 288,
+        "2": 240
+      },
+      "rl_lap_times": [
+        4.34999999999999,
+        4.183333333333347,
+        3.7166666666668515
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.700000000000161,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 23,
+      "rl_decel_hits": 22,
+      "rl_lane_usage": {
+        "0": 334,
+        "1": 278,
+        "2": 90
+      },
+      "rl_lap_times": [
+        3.5333333333333257,
+        4.116666666666653,
+        4.050000000000183
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.600000000000156,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 13,
+      "rl_decel_hits": 14,
+      "rl_lane_usage": {
+        "0": 171,
+        "1": 295,
+        "2": 230
+      },
+      "rl_lap_times": [
+        4.416666666666656,
+        3.0666666666666558,
+        4.116666666666844
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.100000000000081,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 16,
+      "rl_decel_hits": 15,
+      "rl_lane_usage": {
+        "0": 229,
+        "1": 286,
+        "2": 91
+      },
+      "rl_lap_times": [
+        2.799999999999995,
+        3.366666666666655,
+        3.9333333333334313
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.750000000000163,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 14,
+      "rl_decel_hits": 13,
+      "rl_lane_usage": {
+        "0": 257,
+        "1": 257,
+        "2": 191
+      },
+      "rl_lap_times": [
+        3.9166666666666576,
+        3.7666666666666537,
+        4.066666666666852
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 13.450000000000248,
+      "rl_laps": 3,
+      "baseline_laps": 2,
+      "rl_accel_hits": 14,
+      "rl_decel_hits": 14,
+      "rl_lane_usage": {
+        "0": 217,
+        "1": 328,
+        "2": 262
+      },
+      "rl_lap_times": [
+        3.9666666666666575,
+        5.050000000000036,
+        4.433333333333554
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.683333333333444,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 16,
+      "rl_decel_hits": 17,
+      "rl_lane_usage": {
+        "0": 272,
+        "1": 246,
+        "2": 123
+      },
+      "rl_lap_times": [
+        4.149999999999991,
+        3.649999999999987,
+        2.883333333333466
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.000000000000126,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 11,
+      "rl_decel_hits": 10,
+      "rl_lane_usage": {
+        "0": 172,
+        "1": 252,
+        "2": 236
+      },
+      "rl_lap_times": [
+        3.1499999999999937,
+        4.016666666666653,
+        3.8333333333334796
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.633333333333441,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 11,
+      "rl_decel_hits": 10,
+      "rl_lane_usage": {
+        "0": 195,
+        "1": 283,
+        "2": 160
+      },
+      "rl_lap_times": [
+        3.4999999999999925,
+        3.799999999999987,
+        3.333333333333462
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 13.783333333333598,
+      "rl_laps": 3,
+      "baseline_laps": 2,
+      "rl_accel_hits": 12,
+      "rl_decel_hits": 12,
+      "rl_lane_usage": {
+        "0": 335,
+        "1": 322,
+        "2": 170
+      },
+      "rl_lap_times": [
+        4.883333333333321,
+        4.500000000000058,
+        4.400000000000219
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 12.83333333333355,
+      "rl_laps": 3,
+      "baseline_laps": 2,
+      "rl_accel_hits": 13,
+      "rl_decel_hits": 13,
+      "rl_lane_usage": {
+        "0": 294,
+        "1": 313,
+        "2": 163
+      },
+      "rl_lap_times": [
+        4.216666666666657,
+        4.300000000000012,
+        4.316666666666881
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.900000000000121,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 17,
+      "rl_decel_hits": 17,
+      "rl_lane_usage": {
+        "0": 234,
+        "1": 317,
+        "2": 103
+      },
+      "rl_lap_times": [
+        3.8833333333333244,
+        3.549999999999988,
+        3.466666666666809
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.316666666666809,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 10,
+      "rl_decel_hits": 10,
+      "rl_lane_usage": {
+        "0": 283,
+        "1": 300,
+        "2": 96
+      },
+      "rl_lap_times": [
+        4.233333333333324,
+        3.266666666666655,
+        3.81666666666683
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 9.900000000000071,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 13,
+      "rl_decel_hits": 13,
+      "rl_lane_usage": {
+        "0": 231,
+        "1": 276,
+        "2": 87
+      },
+      "rl_lap_times": [
+        3.566666666666659,
+        3.249999999999989,
+        3.0833333333334236
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 10.000000000000076,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 14,
+      "rl_decel_hits": 14,
+      "rl_lane_usage": {
+        "0": 301,
+        "1": 237,
+        "2": 62
+      },
+      "rl_lap_times": [
+        3.1166666666666605,
+        3.1499999999999893,
+        3.7333333333334267
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 13.63333333333359,
+      "rl_laps": 3,
+      "baseline_laps": 2,
+      "rl_accel_hits": 16,
+      "rl_decel_hits": 16,
+      "rl_lane_usage": {
+        "0": 401,
+        "1": 325,
+        "2": 92
+      },
+      "rl_lap_times": [
+        4.8333333333333215,
+        4.53333333333339,
+        4.266666666666879
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 11.433333333333481,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 12,
+      "rl_decel_hits": 13,
+      "rl_lane_usage": {
+        "0": 207,
+        "1": 386,
+        "2": 93
+      },
+      "rl_lap_times": [
+        3.8333333333333246,
+        3.7833333333333203,
+        3.816666666666836
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 12.266666666666856,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 16,
+      "rl_decel_hits": 15,
+      "rl_lane_usage": {
+        "0": 346,
+        "1": 274,
+        "2": 116
+      },
+      "rl_lap_times": [
+        3.5499999999999923,
+        3.9999999999999862,
+        4.716666666666877
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 9.100000000000032,
+      "rl_laps": 3,
+      "baseline_laps": 1,
+      "rl_accel_hits": 12,
+      "rl_decel_hits": 11,
+      "rl_lane_usage": {
+        "0": 201,
+        "1": 225,
+        "2": 120
+      },
+      "rl_lap_times": [
+        3.049999999999994,
+        3.116666666666656,
+        2.9333333333333815
+      ]
+    },
+    {
+      "winner": "RL",
+      "race_time": 13.30000000000024,
+      "rl_laps": 3,
+      "baseline_laps": 2,
+      "rl_accel_hits": 17,
+      "rl_decel_hits": 18,
+      "rl_lane_usage": {
+        "0": 298,
+        "1": 316,
+        "2": 184
+      },
+      "rl_lap_times": [
+        4.216666666666657,
+        4.333333333333347,
+        4.750000000000236
+      ]
+    }
+  ]
+}

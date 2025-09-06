@@ -227,6 +227,8 @@ class RaceEnvironment(gym.Env):
             'baseline_car_angle': self.baseline_car.angle,
             'rl_car_lane': self.rl_car.current_lane,
             'rl_car_angular_speed': self.rl_car.angular_velocity,
+            'rl_car_speed_multiplier': getattr(self.rl_car, 'speed_multiplier', 1.0),
+            'baseline_car_speed_multiplier': getattr(self.baseline_car, 'speed_multiplier', 1.0),
             'episode': self.episode,
             'race_finished': self.race_finished,
             'winner': self.winner,

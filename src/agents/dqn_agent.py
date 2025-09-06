@@ -262,12 +262,46 @@ class DQNAgent:
         """Load model weights and training state"""
         checkpoint = torch.load(filepath, map_location=self.device)
         
+        def _compat_remap(state_dict: dict) -> dict:
+            """Remap old fc* keys to new hidden_nets.* keys if needed"""
+            if not isinstance(state_dict, dict):
+                return state_dict
+            # Detect old keys
+            has_fc = any(k.startswith('fc1.') or k.startswith('fc2.') or k.startswith('fc3.') for k in state_dict.keys())
+            has_hidden = any(k.startswith('hidden_nets.') for k in state_dict.keys())
+            if has_hidden or not has_fc:
+                return state_dict
+            mapping = {
+                'fc1.': 'hidden_nets.0.',
+                'fc2.': 'hidden_nets.1.',
+                'fc3.': 'hidden_nets.2.',
+            }
+            remapped = {}
+            for k, v in state_dict.items():
+                for old, new in mapping.items():
+                    if k.startswith(old):
+                        k = new + k[len(old):]
+                        break
+                remapped[k] = v
+            return remapped
+        
         # Load network weights
         if self.network_type == "double":
-            self.q_network.online_network.load_state_dict(checkpoint['online_network_state_dict'])
-            self.q_network.target_network.load_state_dict(checkpoint['target_network_state_dict'])
+            online_sd = checkpoint.get('online_network_state_dict', {})
+            target_sd = checkpoint.get('target_network_state_dict', {})
+            try:
+                self.q_network.online_network.load_state_dict(online_sd)
+                self.q_network.target_network.load_state_dict(target_sd)
+            except RuntimeError:
+                # Attempt compatibility remap
+                self.q_network.online_network.load_state_dict(_compat_remap(online_sd), strict=False)
+                self.q_network.target_network.load_state_dict(_compat_remap(target_sd), strict=False)
         else:
-            self.q_network.load_state_dict(checkpoint['network_state_dict'])
+            net_sd = checkpoint.get('network_state_dict', {})
+            try:
+                self.q_network.load_state_dict(net_sd)
+            except RuntimeError:
+                self.q_network.load_state_dict(_compat_remap(net_sd), strict=False)
         
         # Load optimizer state
         if load_optimizer and 'optimizer_state_dict' in checkpoint:

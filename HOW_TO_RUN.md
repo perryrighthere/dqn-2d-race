@@ -127,6 +127,19 @@ python phase4_part3.py --quick --episodes 300 --seeds 101,202
 - Logs and plots under `phase4_part3/logs/`
 - Summary written to `phase4_part3/PHASE4_PART3_RESULTS.md`
 
+### Phase 4 Part 4: Comprehensive Evaluation
+
+#### Run Head‑to‑Head Tournament
+```bash
+# 100+ races, headless
+python tournament.py --model models/dqn_racing_final.pth --races 100 --out-dir evaluation
+
+# Quick test (20 races)
+python tournament.py --quick --races 30 --out-dir evaluation_quick
+```
+- Outputs JSON summary + per‑race stats in `evaluation/`
+- Saves plots (if available) and a simple markdown summary
+
 #### Custom Training
 ```bash
 # Custom configuration
