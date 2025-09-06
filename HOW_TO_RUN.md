@@ -127,6 +127,16 @@ python phase4_part3.py --quick --episodes 300 --seeds 101,202
 - Logs and plots under `phase4_part3/logs/`
 - Summary written to `phase4_part3/PHASE4_PART3_RESULTS.md`
 
+Note on per‑seed settings for the command above:
+- Each seed (101, 202, 303, 404, 505) runs the same optimized configuration; only the RNG seed differs.
+- Core training config:
+  - Episodes: 2500, `save_freq=250`, `eval_freq=50`, `max_steps_per_episode=4200`, no rendering.
+  - Agent (Double DQN): `learning_rate=0.0005`, `gamma=0.99`, `epsilon_decay=0.9995`, `epsilon_min=0.05`, `buffer_size=100000`, `batch_size=64`, `buffer_type=standard`.
+  - Network: hidden layers `[128, 128, 64]`.
+  - Evaluation: `eval_tile_density=0.8`.
+  - Curriculum (enabled): stages `{(1, 0.5), (801, 0.8), (1601, 1.1)}` for `tile_density`, adaptive advance if recent win‑rate ≥ 0.9 over 50 episodes.
+  - Outputs: `phase4_part3/seed_<seed>/dqn_racing_final.pth` and logs in `phase4_part3/logs/`.
+
 ### Phase 4 Part 4: Comprehensive Evaluation
 
 #### Run Head‑to‑Head Tournament
@@ -540,3 +550,97 @@ python demo.py --model phase4_part3/seed_202/dqn_racing_final.pth \
   python tournament.py --model <MODEL_PATH> --races 100 --out-dir evaluation
   ```
 - All scripts default to the measured baseline (~18.83s) when printing improvements.
+
+### Full Dissertation Comparison Workflow (Concise)
+
+1) Train candidate models (multi‑seed, deep)
+```bash
+python phase4_part3.py --episodes 2500 --seeds 101,202,303,404,505
+# Pick top 2–3 seeds from phase4_part3/PHASE4_PART3_RESULTS.md
+```
+
+2) Define tile settings (suggested)
+- Easy: `--tile-density 0.5 --accel-ratio 0.6`
+- Normal: `--tile-density 0.8 --accel-ratio 0.6`
+- Hard: `--tile-density 1.1 --accel-ratio 0.7`
+
+3) Headless grid comparisons (fast, 50 races)
+```bash
+# Example: compare two models across 3 tile settings
+for M in phase4_part3/seed_101/dqn_racing_final.pth phase4_part3/seed_202/dqn_racing_final.pth; do \
+  for TD AR in "0.5 0.6" "0.8 0.6" "1.1 0.7"; do set -- $TD AR; \
+    python demo.py --headless --races 50 --model $M --tile-density $1 --accel-ratio $2 --seed 123; \
+  done; \
+done
+```
+
+4) Statistical tournaments (100+ races) for selected pairs
+```bash
+# Normal tiles for significance + heatmaps
+python tournament.py --model phase4_part3/seed_101/dqn_racing_final.pth --races 100 --out-dir eval_seed101
+python tournament.py --model phase4_part3/seed_202/dqn_racing_final.pth --races 100 --out-dir eval_seed202
+
+# Optional: vary tiles
+python tournament.py --model phase4_part3/seed_101/dqn_racing_final.pth --races 100 --out-dir eval_seed101_hard --tile-density 1.1
+```
+
+5) Collect results for tables
+- Headless: copy win rate and avg RL time from console.
+- Tournament JSON (`evaluation*/tournament_results_*.json`): use fields
+  - `summary.win_rate`, `summary.win_rate_ci_95`
+  - `summary.rl_avg_time`, `summary.time_improvement.*`
+  - `summary.tile_hits`, `summary.lane_usage_total`
+
+6) Visual assets (optional)
+```bash
+python demo.py --model <MODEL> --tile-density 0.8 --accel-ratio 0.6
+```
+
+## 🔬 Hyperparameter Model Comparison (lr, gamma, architecture)
+
+Step‑by‑step to compare models trained with different hyperparameters across tile settings.
+
+1) Train model variants (no code edits)
+- Quick screen (300 eps/exp): `python comprehensive_hyperopt.py --quick`
+- Stronger (e.g., 750 eps/exp): `python comprehensive_hyperopt.py --episodes 750`
+- Covers: lr [0.0001, 0.0005, 0.001, 0.002], architectures [[64,64,32], [128,128,64], [256,128,64], [128,64]], gamma [0.95, 0.99, 0.995]
+- Outputs: `hyperopt_results/models/<config_id>/dqn_racing_final.pth`
+
+2) Fix tile settings for fairness
+- Easy: `--tile-density 0.5 --accel-ratio 0.6`
+- Normal: `--tile-density 0.8 --accel-ratio 0.6`
+- Hard: `--tile-density 1.1 --accel-ratio 0.7`
+
+3) Quick pre‑screen (50 races) for triage
+```bash
+for M in \
+  hyperopt_results/models/lr_0.0005_*/dqn_racing_final.pth \
+  hyperopt_results/models/arch_current_baseline_*/dqn_racing_final.pth \
+  hyperopt_results/models/gamma_0.99_*/dqn_racing_final.pth; do \
+  for TD AR in "0.5 0.6" "0.8 0.6" "1.1 0.7"; do set -- $TD AR; \
+    python demo.py --headless --races 50 --model "$M" --tile-density "$1" --accel-ratio "$2" --seed 123; \
+  done; \
+done
+```
+
+4) Final statistical comparisons (100+ races, JSON outputs)
+```bash
+python tournament.py --model <MODEL> --races 100 --out-dir eval_<TAG> \
+  --tile-density 0.8 --accel-ratio 0.6
+```
+
+5) Build comparison tables
+- From `eval_*/tournament_results_*.json` use:
+  - `summary.win_rate`, `summary.win_rate_ci_95`
+  - `summary.rl_avg_time`, `summary.time_improvement.{mean,median,std,ci95}`
+  - `summary.tile_settings.{tile_density,accel_ratio}`
+- jq example:
+```bash
+jq -r '[.summary.model_path, .summary.tile_settings.tile_density, .summary.tile_settings.accel_ratio, \
+        .summary.win_rate, (.summary.win_rate_ci_95[0]//null), (.summary.win_rate_ci_95[1]//null), \
+        .summary.rl_avg_time, .summary.time_improvement.mean, (.summary.time_improvement.ci95[0]//null), (.summary.time_improvement.ci95[1]//null)] | @csv' \
+  eval_*/*tournament_results_*.json
+```
+
+6) Optional visuals
+- `python demo.py --model <MODEL> --tile-density 0.8 --accel-ratio 0.6`

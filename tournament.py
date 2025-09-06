@@ -67,7 +67,7 @@ class RaceResult:
 
 
 def run_tournament(model_path: str, races: int = 100, out_dir: str = 'evaluation', tile_density: float = 0.8,
-                   angle_bins: int = 36) -> Dict:
+                   accel_ratio: float = 0.6, angle_bins: int = 36) -> Dict:
     os.makedirs(out_dir, exist_ok=True)
     agent = load_trained_agent(model_path)
     baseline_mean = load_baseline_mean()
@@ -86,7 +86,7 @@ def run_tournament(model_path: str, races: int = 100, out_dir: str = 'evaluation
 
     for i in range(races):
         env = RaceEnvironment(render_mode=None)
-        obs, info = env.reset(seed=5000 + i, options={'tile_density': tile_density})
+        obs, info = env.reset(seed=5000 + i, options={'tile_density': tile_density, 'accel_ratio': accel_ratio})
 
         rl_prev_mult = info.get('rl_car_speed_multiplier', 1.0)
         accel_hits = 0
@@ -204,6 +204,10 @@ def run_tournament(model_path: str, races: int = 100, out_dir: str = 'evaluation
             'lanes': 3,
             'angle_bins': angle_bins,
             'matrix': occupancy.tolist()
+        },
+        'tile_settings': {
+            'tile_density': tile_density,
+            'accel_ratio': accel_ratio
         }
     }
 
@@ -288,6 +292,7 @@ def main():
     parser.add_argument('--races', '-r', type=int, default=100, help='Number of races to run')
     parser.add_argument('--out-dir', type=str, default='evaluation', help='Output directory')
     parser.add_argument('--tile-density', type=float, default=0.8, help='Evaluation tile density')
+    parser.add_argument('--accel-ratio', type=float, default=0.6, help='Acceleration tile ratio (0..1)')
     parser.add_argument('--quick', action='store_true', help='Quick mode (20 races)')
     args = parser.parse_args()
 
@@ -299,7 +304,7 @@ def main():
     print(f'Races: {args.races}, Tile density: {args.tile_density}')
     print(f'Output: {args.out_dir}')
 
-    summary = run_tournament(args.model, args.races, args.out_dir, args.tile_density)
+    summary = run_tournament(args.model, args.races, args.out_dir, args.tile_density, args.accel_ratio)
     print('--- Summary ---')
     print(f"Win rate: {summary['win_rate']:.1%}")
     print(f"Avg RL time: {summary['rl_avg_time']:.2f}s")
