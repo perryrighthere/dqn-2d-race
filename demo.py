@@ -6,6 +6,7 @@ Tests the core game environment, track, cars, and visualization
 
 import sys
 import os
+import argparse
 sys.path.append(os.path.join(os.path.dirname(__file__)))
 
 from src.environment.race_environment import RaceEnvironment
@@ -40,7 +41,7 @@ def test_basic_functionality():
     env.close()
     print("Basic functionality test completed!\n")
 
-def run_visual_demo(use_trained_model=False, model_path=None):
+def run_visual_demo(use_trained_model=False, model_path=None, tile_density=None, accel_ratio=None, seed=None):
     """Run visual demo with pygame rendering"""
     print("Starting visual demo...")
     print("Controls: ESC to quit")
@@ -74,7 +75,8 @@ def run_visual_demo(use_trained_model=False, model_path=None):
     
     try:
         # Reset environment
-        observation, info = env.reset()
+        opts = {'tile_density': tile_density, 'accel_ratio': accel_ratio}
+        observation, info = env.reset(seed=seed, options=opts)
         
         running = True
         step_count = 0
@@ -109,7 +111,7 @@ def run_visual_demo(use_trained_model=False, model_path=None):
                 
                 # Wait for user input
                 time.sleep(2)
-                observation, info = env.reset()
+                observation, info = env.reset(seed=seed, options=opts)
                 step_count = 0
                 
     except KeyboardInterrupt:
@@ -148,23 +150,93 @@ def analyze_environment():
     env.close()
     print("Environment analysis completed!\n")
 
+def run_headless_demo(model_path=None, races=10, tile_density=None, accel_ratio=None, seed=None):
+    from src.agents.dqn_agent import create_racing_dqn_agent
+    agent = None
+    if model_path and os.path.exists(model_path):
+        config = {
+            'state_size': 11,
+            'action_size': 5,
+            'epsilon': 0.0,
+            'learning_rate': 0.0005,
+            'gamma': 0.99,
+            'buffer_size': 100000,
+            'batch_size': 64,
+            'network_type': 'double'
+        }
+        agent = create_racing_dqn_agent(config=config)
+        agent.load_model(model_path, load_optimizer=False)
+        print(f"Loaded model: {model_path}")
+    else:
+        print("No model provided; using random actions")
+
+    wins = 0
+    rl_times = []
+    for i in range(races):
+        env = RaceEnvironment(render_mode=None)
+        obs, info = env.reset(seed=(seed or 0) + i, options={'tile_density': tile_density, 'accel_ratio': accel_ratio})
+        while True:
+            if agent is not None:
+                action = agent.act(obs, training=False)
+            else:
+                action = env.action_space.sample()
+            obs, reward, terminated, truncated, info = env.step(action)
+            if terminated or truncated:
+                break
+        if info.get('winner') == 'RL':
+            wins += 1
+        rl_times.append(info.get('race_time', 0.0))
+        env.close()
+
+    print("\n=== Headless Demo Summary ===")
+    print(f"Races: {races}")
+    print(f"Win rate: {wins/races:.1%}")
+    if rl_times:
+        print(f"Avg RL race time: {sum(rl_times)/len(rl_times):.2f}s")
+
 def main():
+    parser = argparse.ArgumentParser(description='2D Car Racing Demo (visual or headless)')
+    parser.add_argument('--model', '-m', default=None, help='Path to trained model')
+    parser.add_argument('--headless', action='store_true', help='Run without visualization')
+    parser.add_argument('--races', type=int, default=3, help='Number of races (headless only)')
+    parser.add_argument('--tile-density', type=float, default=None, help='Tile density (e.g., 0.5, 0.8, 1.1)')
+    parser.add_argument('--accel-ratio', type=float, default=None, help='Acceleration tile ratio (0..1)')
+    parser.add_argument('--seed', type=int, default=None, help='Base seed')
+    args = parser.parse_args()
+
     print("=== 2D Car Racing Game Demo ===")
     print("DQN vs Baseline Agent\n")
-    
+
+    # Non-interactive CLI modes
+    if args.headless or args.model or args.tile_density is not None or args.accel_ratio is not None:
+        if args.headless:
+            run_headless_demo(
+                model_path=args.model,
+                races=args.races,
+                tile_density=args.tile_density,
+                accel_ratio=args.accel_ratio,
+                seed=args.seed,
+            )
+        else:
+            use_trained = bool(args.model)
+            run_visual_demo(
+                use_trained_model=use_trained,
+                model_path=args.model,
+                tile_density=args.tile_density,
+                accel_ratio=args.accel_ratio,
+                seed=args.seed,
+            )
+        print("\n=== Demo Completed ===")
+        return
+
+    # Default interactive path (unchanged behavior)
     try:
-        # Run tests
         analyze_environment()
         test_basic_functionality()
-        
-        # Check if trained model exists
         model_path = "models/dqn_racing_final.pth"
         has_trained_model = os.path.exists(model_path)
-        
         if has_trained_model:
             print(f"Found trained model: {model_path}")
-        
-        # Ask user if they want to see visual demo
         while True:
             if has_trained_model:
                 print("Demo options:")
@@ -175,8 +247,7 @@ def main():
                     choice = input("Choose option (1/2/3): ").strip()
                 except EOFError:
                     print("Running demo with enhanced visuals...")
-                    choice = "1"  # Default to random agent demo
-                
+                    choice = "1"
                 if choice == "1":
                     run_visual_demo(use_trained_model=False)
                     break
@@ -193,8 +264,7 @@ def main():
                     choice = input("Run visual demo? (y/n): ").lower().strip()
                 except EOFError:
                     print("Running demo with enhanced visuals...")
-                    choice = "y"  # Default to yes
-                    
+                    choice = "y"
                 if choice in ['y', 'yes']:
                     run_visual_demo()
                     break
@@ -203,12 +273,10 @@ def main():
                     break
                 else:
                     print("Please enter 'y' or 'n'")
-        
     except Exception as e:
         print(f"Error during demo: {e}")
         import traceback
         traceback.print_exc()
-    
     print("\n=== Demo Completed ===")
 
 if __name__ == "__main__":

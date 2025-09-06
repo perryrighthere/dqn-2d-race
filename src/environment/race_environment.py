@@ -16,12 +16,13 @@ class RaceEnvironment(gym.Env):
     Circular 2D Car Racing Environment for RL Agent vs Baseline Agent
     """
     
-    def __init__(self, render_mode: str = None, tile_density: float = None):
+    def __init__(self, render_mode: str = None, tile_density: float = None, accel_ratio: float = None):
         super().__init__()
         
         # Environment configuration
         self.render_mode = render_mode
         self.tile_density = tile_density if tile_density is not None else TILE_DENSITY
+        self.accel_ratio = accel_ratio if accel_ratio is not None else 0.6
         
         # Initialize components
         self.track = Track()
@@ -63,10 +64,12 @@ class RaceEnvironment(gym.Env):
         # Allow overriding tile density via options
         if options and 'tile_density' in options and options['tile_density'] is not None:
             self.tile_density = float(options['tile_density'])
+        if options and 'accel_ratio' in options and options['accel_ratio'] is not None:
+            self.accel_ratio = float(options['accel_ratio'])
         
         # Reset track and generate new tiles
-        self.track.reset(density=self.tile_density)
-        self.tile_manager.reset(seed=seed, density=self.tile_density)
+        self.track.reset(density=self.tile_density, accel_ratio=self.accel_ratio)
+        self.tile_manager.reset(seed=seed, density=self.tile_density, accel_ratio=self.accel_ratio)
         
         # Reset cars to starting positions (angle 0, different lanes)
         self.baseline_car.reset(angle=0, lane=self.track.middle_lane_id)
@@ -232,7 +235,8 @@ class RaceEnvironment(gym.Env):
             'episode': self.episode,
             'race_finished': self.race_finished,
             'winner': self.winner,
-            'tile_density': self.tile_density
+            'tile_density': self.tile_density,
+            'accel_ratio': self.accel_ratio
         }
         
     def render(self):

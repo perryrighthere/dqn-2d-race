@@ -57,7 +57,7 @@ class TileManager:
         self.tiles = []  # List of SpecialTile objects
         self.tiles_by_lane = {}  # Dict mapping lane_id to list of tiles
         
-    def generate_tiles(self, density: float = TILE_DENSITY, seed: int = 42):
+    def generate_tiles(self, density: float = TILE_DENSITY, seed: int = 42, accel_ratio: float = 0.6):
         """Generate special tiles for all lanes except middle lane with enhanced randomization"""
         np.random.seed(seed)
         self.clear_tiles()
@@ -122,10 +122,11 @@ class TileManager:
                 # Get the successfully placed tile parameters
                 angle, actual_radius, candidate_size = placed_tiles[-1]
                 
-                # More varied tile type selection with slight bias toward acceleration
-                tile_weights = [0.6, 0.4]  # 60% acceleration, 40% deceleration
-                tile_type = np.random.choice([TileType.ACCELERATION, TileType.DECELERATION], 
-                                           p=tile_weights)
+                # Configurable ratio of acceleration vs deceleration tiles
+                accel_ratio = float(np.clip(accel_ratio if accel_ratio is not None else 0.6, 0.0, 1.0))
+                tile_type = np.random.choice(
+                    [TileType.ACCELERATION, TileType.DECELERATION], p=[accel_ratio, 1.0 - accel_ratio]
+                )
                 
                 # Create tile with variations
                 tile = SpecialTile(
@@ -231,12 +232,19 @@ class TileManager:
         self.tiles.clear()
         self.tiles_by_lane.clear()
         
-    def reset(self, seed: int = None, density: float = None):
+    def reset(self, seed: int = None, density: float = None, accel_ratio: float = None):
         """Reset tile manager and regenerate tiles"""
         if seed is not None:
-            self.generate_tiles(density=density if density is not None else TILE_DENSITY, seed=seed)
+            self.generate_tiles(
+                density=density if density is not None else TILE_DENSITY,
+                seed=seed,
+                accel_ratio=accel_ratio if accel_ratio is not None else 0.6,
+            )
         else:
-            self.generate_tiles(density=density if density is not None else TILE_DENSITY)
+            self.generate_tiles(
+                density=density if density is not None else TILE_DENSITY,
+                accel_ratio=accel_ratio if accel_ratio is not None else 0.6,
+            )
             
     def get_tile_count(self) -> Dict[str, int]:
         """Get count of tiles by type"""

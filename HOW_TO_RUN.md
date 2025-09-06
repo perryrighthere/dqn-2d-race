@@ -499,3 +499,44 @@ For issues or questions:
 - Examine the project plan (`PROJECT_PLAN.md`)
 
 The project implements a complete reinforcement learning pipeline for autonomous racing, from environment setup through DQN training to competitive evaluation.
+ 
+---
+
+## 📘 Dissertation Comparison Guide (Models × Tile Settings)
+
+Use `demo.py` to quickly compare different trained models under different map tile settings (density and acceleration ratio). This runs either a visual demo or a headless N‑race evaluation.
+
+### Headless comparisons (recommended for data collection)
+```bash
+# Compare model A on normal tiles (density 0.8, 60% accel)
+python demo.py --headless --races 50 \
+  --model models/dqn_racing_final.pth \
+  --tile-density 0.8 --accel-ratio 0.6
+
+# Compare model B (from Phase 4 Part 3 seed) on fewer tiles (easier)
+python demo.py --headless --races 50 \
+  --model phase4_part3/seed_101/dqn_racing_final.pth \
+  --tile-density 0.5 --accel-ratio 0.6
+
+# Compare the same model on harder tiles (denser, more acceleration)
+python demo.py --headless --races 50 \
+  --model phase4_part3/seed_101/dqn_racing_final.pth \
+  --tile-density 1.1 --accel-ratio 0.7
+```
+- `--tile-density`: overall number of tiles (per non‑middle lane).
+- `--accel-ratio`: share of acceleration tiles (0..1), rest are deceleration.
+- `--seed`: base seed to fix randomness (optional).
+
+### Visual comparisons (for figures/videos)
+```bash
+# Visual demo with model C on normal tiles
+python demo.py --model phase4_part3/seed_202/dqn_racing_final.pth \
+  --tile-density 0.8 --accel-ratio 0.6
+```
+
+### Notes
+- For full statistical reports and plots, use the tournament tool:
+  ```bash
+  python tournament.py --model <MODEL_PATH> --races 100 --out-dir evaluation
+  ```
+- All scripts default to the measured baseline (~18.83s) when printing improvements.

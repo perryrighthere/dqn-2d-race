@@ -107,7 +107,7 @@ class Track:
             
         return valid_lanes
         
-    def generate_special_tiles(self, density: float = TILE_DENSITY):
+    def generate_special_tiles(self, density: float = TILE_DENSITY, accel_ratio: float = 0.6):
         """Generate special tiles for all lanes except middle lane"""
         np.random.seed(42)  # For reproducible tile generation
         
@@ -120,7 +120,8 @@ class Track:
             num_tiles = int(density * 20)  # Adjust tile count for circular track
             for _ in range(num_tiles):
                 angle = np.random.uniform(0, 2 * math.pi)
-                tile_type = np.random.choice(['acceleration', 'deceleration'])
+                accel_ratio = float(np.clip(accel_ratio if accel_ratio is not None else 0.6, 0.0, 1.0))
+                tile_type = np.random.choice(['acceleration', 'deceleration'], p=[accel_ratio, 1.0 - accel_ratio])
                 lane.add_special_tile(angle, tile_type)
                 
     def get_tiles_near_angle(self, angle: float, look_ahead_angle: float = 0.5) -> dict:
@@ -163,8 +164,11 @@ class Track:
         """Convert cartesian coordinates to angle"""
         return math.atan2(y, x)
         
-    def reset(self, density: float = None):
+    def reset(self, density: float = None, accel_ratio: float = None):
         """Reset track state and regenerate tiles"""
         for lane in self.lanes:
             lane.special_tiles.clear()
-        self.generate_special_tiles(density=density if density is not None else TILE_DENSITY)
+        self.generate_special_tiles(
+            density=density if density is not None else TILE_DENSITY,
+            accel_ratio=accel_ratio if accel_ratio is not None else 0.6,
+        )
