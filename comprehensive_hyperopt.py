@@ -110,6 +110,10 @@ class ComprehensiveHyperparameterOptimizer:
             trainer = TrainingManager(config)
             trainer.setup()
             final_results = trainer.train()
+            
+            # Generate training plots
+            self.generate_training_plots(trainer, config_id)
+            
             trainer.cleanup()
             
             training_duration = time.time() - start_time
@@ -804,6 +808,54 @@ Based on the comprehensive hyperparameter optimization:
         
         print(f"📈 Comprehensive optimization plots saved to: {plot_file}")
     
+    def generate_training_plots(self, trainer, config_id: str):
+        """Generate training plots for loss and epsilon decay"""
+        try:
+            history = trainer.training_history
+            if not history or 'episodes' not in history:
+                return
+            
+            episodes = history['episodes']
+            
+            # Create training plots
+            fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
+            fig.suptitle(f'Training Progress: {config_id}', fontsize=14)
+            
+            # Plot 1: Loss over episodes
+            if 'losses' in history and len(history['losses']) > 0:
+                losses = history['losses']
+                ax1.plot(episodes[:len(losses)], losses, 'r-', alpha=0.7, linewidth=1)
+                if len(losses) > 10:
+                    window = min(10, len(losses) // 3)
+                    losses_smooth = np.convolve(losses, np.ones(window)/window, mode='valid')
+                    episodes_smooth = episodes[window-1:len(losses)]
+                    ax1.plot(episodes_smooth, losses_smooth, 'r-', linewidth=2, label='Smoothed')
+                    ax1.legend()
+                ax1.set_title('Training Loss')
+                ax1.set_xlabel('Episode')
+                ax1.set_ylabel('Loss')
+                ax1.grid(True, alpha=0.3)
+            
+            # Plot 2: Epsilon decay
+            if 'epsilons' in history and len(history['epsilons']) > 0:
+                epsilons = history['epsilons']
+                ax2.plot(episodes[:len(epsilons)], epsilons, 'b-', linewidth=2)
+                ax2.set_title('Epsilon Decay')
+                ax2.set_xlabel('Episode')
+                ax2.set_ylabel('Epsilon')
+                ax2.grid(True, alpha=0.3)
+                ax2.set_ylim(0, 1.1)
+            
+            plt.tight_layout()
+            
+            # Save the plot
+            plot_file = self.plots_dir / f"{config_id}_training.png"
+            plt.savefig(plot_file, dpi=150, bbox_inches='tight')
+            plt.close()
+            
+        except Exception as e:
+            print(f"   ⚠️  Failed to generate training plots: {e}")
+
     def generate_interrupted_report(self) -> Dict[str, Any]:
         """Generate report for interrupted optimization"""
         return {
